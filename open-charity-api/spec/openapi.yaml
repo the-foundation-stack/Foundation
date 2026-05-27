@@ -1088,7 +1088,7 @@ components:
         scheme: uk_gift_aid
         declared_at: 2026-05-27T14:32:11Z
         declaration_text_version: "2026.04"
-        covers: this_donation_only
+        covers: this_gift_only
         ip_address: 203.0.113.42
         full_forenames: Aisha Sara
         home_address:
@@ -1363,7 +1363,7 @@ components:
           - scheme: uk_gift_aid
             declared_at: 2026-05-27T14:32:11Z
             declaration_text_version: "2026.04"
-            covers: this_donation_only
+            covers: this_gift_only
         zakat_metadata:
           asnaf_allocation:
             - asnaf: fuqara
@@ -1435,7 +1435,7 @@ components:
           - scheme: uk_gift_aid
             declared_at: 2026-05-27T14:32:11Z
             declaration_text_version: "2026.04"
-            covers: this_donation_only
+            covers: this_gift_only
         zakat_metadata:
           asnaf_allocation:
             - asnaf: fuqara
