@@ -8,23 +8,24 @@ info:
     any application can integrate with them through a single, consistent interface.
 
     This is version 0.1.0 — draft. Breaking changes may still occur until v1.0.0.
-    See https://github.com/open-charity-api/spec for the project home.
+    See https://github.com/the-foundation-stack/Foundation for the project home.
   contact:
     name: OCAS Maintainers
-    url: https://github.com/open-charity-api/spec
+    url: https://github.com/the-foundation-stack/Foundation
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
-  x-logo:
-    url: https://example.org/ocas-logo.svg
 
 servers:
   - url: https://{charity_domain}/api/ocas/v1
-    description: A charity's OCAS endpoint
+    description: |
+      Each charity hosts OCAS at its own domain. Replace `{charity_domain}` with the actual host.
+      For example: `https://give.example-charity.org/api/ocas/v1`.
+      Discover a charity's exact base URL via `GET /charity` at any candidate domain.
     variables:
       charity_domain:
-        default: example-charity.org
-        description: The charity's own domain.
+        default: give.example-charity.org
+        description: The charity's own hostname for the OCAS API.
 
 tags:
   - name: Charity
