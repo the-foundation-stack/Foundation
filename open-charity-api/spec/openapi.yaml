@@ -564,12 +564,12 @@ components:
         Used in Authorization header: `Authorization: Bearer ocas_live_...`
     oauth2:
       type: oauth2
-      description: OAuth 2.0 Authorization Code Flow with PKCE.
+      description: "OAuth 2.0 Authorization Code Flow with PKCE. The URLs below are illustrative — each charity publishes its own endpoints at its own domain. Discover via /charity."
       flows:
         authorizationCode:
-          authorizationUrl: https://{charity_domain}/oauth/authorize
-          tokenUrl: https://{charity_domain}/oauth/token
-          refreshUrl: https://{charity_domain}/oauth/token
+          authorizationUrl: https://charity.example.org/oauth/authorize
+          tokenUrl: https://charity.example.org/oauth/token
+          refreshUrl: https://charity.example.org/oauth/token
           scopes:
             openid: OpenID Connect ID token
             profile: Donor profile
