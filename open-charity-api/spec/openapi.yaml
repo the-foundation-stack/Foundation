@@ -1,0 +1,1382 @@
+openapi: 3.1.0
+info:
+  title: Open Charity API Standard (OCAS)
+  version: 0.1.0
+  summary: A vendor-neutral specification for charity donation APIs.
+  description: |
+    OCAS is an open, free-to-implement specification any charity can adopt so that
+    any application can integrate with them through a single, consistent interface.
+
+    This is version 0.1.0 — draft. Breaking changes may still occur until v1.0.0.
+    See https://github.com/open-charity-api/spec for the project home.
+  contact:
+    name: OCAS Maintainers
+    url: https://github.com/open-charity-api/spec
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  x-logo:
+    url: https://example.org/ocas-logo.svg
+
+servers:
+  - url: https://{charity_domain}/api/ocas/v1
+    description: A charity's OCAS endpoint
+    variables:
+      charity_domain:
+        default: example-charity.org
+        description: The charity's own domain.
+
+tags:
+  - name: Charity
+    description: Information about the charity itself.
+  - name: Campaigns
+    description: Time-bound fundraising appeals.
+  - name: Funds
+    description: Long-running designated buckets.
+  - name: Donations
+    description: One-off donations.
+  - name: Subscriptions
+    description: Recurring donations.
+  - name: Donors
+    description: Donor records (only relevant in oauth2 mode).
+  - name: Receipts
+    description: Donation receipts.
+  - name: Zakat
+    description: Islamic obligatory-alms helpers (optional).
+  - name: Webhooks
+    description: Server-to-server event delivery.
+
+security:
+  - {}                # public mode — no auth
+  - apiKey: []
+  - oauth2:
+      - donations:write
+
+paths:
+
+  ##########################################################################
+  # Charity
+  ##########################################################################
+  /charity:
+    get:
+      tags: [Charity]
+      summary: Get charity information and capability profile.
+      description: |
+        Always public, no auth required. The response advertises which features,
+        donation types, tax-relief schemes and authentication mode this charity supports.
+      security: []
+      responses:
+        '200':
+          description: Charity profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Charity'
+
+  ##########################################################################
+  # Campaigns
+  ##########################################################################
+  /campaigns:
+    get:
+      tags: [Campaigns]
+      summary: List campaigns.
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+        - in: query
+          name: active
+          schema: { type: boolean }
+          description: If true, only campaigns currently within their start/end window.
+      responses:
+        '200':
+          description: Campaign list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Campaign' }
+                  next_cursor: { type: [string, "null"] }
+
+  /campaigns/{id}:
+    get:
+      tags: [Campaigns]
+      summary: Get a single campaign by ID or slug.
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/IdOrSlug' }
+      responses:
+        '200':
+          description: Campaign.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Campaign' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  ##########################################################################
+  # Funds
+  ##########################################################################
+  /funds:
+    get:
+      tags: [Funds]
+      summary: List long-running designated funds.
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200':
+          description: Fund list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Fund' }
+                  next_cursor: { type: [string, "null"] }
+
+  /funds/{id}:
+    get:
+      tags: [Funds]
+      summary: Get a single fund.
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Fund.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Fund' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  ##########################################################################
+  # Donations
+  ##########################################################################
+  /donations:
+    post:
+      tags: [Donations]
+      summary: Create a donation.
+      description: |
+        The fundamental endpoint. Creates a donation record and returns either:
+          - a `payment_intent` (when the charity will hand the donor off to a payment processor SDK), or
+          - a `redirect_url` (when the charity hosts its own payment page).
+
+        Idempotency-Key header is supported. Re-posting the same key with the same body
+        returns the original response without creating a duplicate.
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema: { type: string, minLength: 16 }
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DonationCreate' }
+      responses:
+        '201':
+          description: Donation created. Payment may still be pending.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DonationCreateResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    get:
+      tags: [Donations]
+      summary: List donations.
+      description: Requires `donations:read` scope. Not available in `public` mode.
+      security:
+        - apiKey: [donations:read]
+        - oauth2: [donations:read]
+      parameters:
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+        - in: query
+          name: status
+          schema: { $ref: '#/components/schemas/DonationStatus' }
+        - in: query
+          name: created_after
+          schema: { type: string, format: date-time }
+        - in: query
+          name: created_before
+          schema: { type: string, format: date-time }
+        - in: query
+          name: campaign_id
+          schema: { type: string }
+        - in: query
+          name: donation_type
+          schema: { $ref: '#/components/schemas/DonationType' }
+      responses:
+        '200':
+          description: Donation list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Donation' }
+                  next_cursor: { type: [string, "null"] }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /donations/{id}:
+    get:
+      tags: [Donations]
+      summary: Get a single donation.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Donation.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Donation' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /donations/{id}/refund:
+    post:
+      tags: [Donations]
+      summary: Refund a donation.
+      description: |
+        Whether refunds are allowed, and the refund window, are controlled by the charity.
+        Returns 422 if the donation is not refundable.
+      security:
+        - apiKey: [donations:write]
+        - oauth2: [donations:write]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  $ref: '#/components/schemas/Money'
+                  description: Partial refund; omit for full refund.
+                reason:
+                  type: string
+                  maxLength: 500
+      responses:
+        '200':
+          description: Refund processed.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Donation' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  ##########################################################################
+  # Subscriptions
+  ##########################################################################
+  /subscriptions:
+    post:
+      tags: [Subscriptions]
+      summary: Create a recurring donation subscription.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SubscriptionCreate' }
+      responses:
+        '201':
+          description: Subscription created.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Subscription' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    get:
+      tags: [Subscriptions]
+      summary: List subscriptions.
+      security:
+        - apiKey: [subscriptions:read]
+        - oauth2: [subscriptions:read, donor:self]
+      parameters:
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+        - in: query
+          name: status
+          schema: { $ref: '#/components/schemas/SubscriptionStatus' }
+      responses:
+        '200':
+          description: Subscription list.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Subscription' }
+                  next_cursor: { type: [string, "null"] }
+
+  /subscriptions/{id}:
+    get:
+      tags: [Subscriptions]
+      summary: Get subscription.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Subscription.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Subscription' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    patch:
+      tags: [Subscriptions]
+      summary: Update subscription (pause, resume, change amount/frequency/designation).
+      security:
+        - apiKey: [subscriptions:write]
+        - oauth2: [subscriptions:write, donor:self]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SubscriptionUpdate' }
+      responses:
+        '200':
+          description: Updated subscription.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Subscription' }
+    delete:
+      tags: [Subscriptions]
+      summary: Cancel subscription.
+      security:
+        - apiKey: [subscriptions:write]
+        - oauth2: [subscriptions:write, donor:self]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Cancelled.
+
+  ##########################################################################
+  # Donors (oauth2 only)
+  ##########################################################################
+  /donors/me:
+    get:
+      tags: [Donors]
+      summary: Get the authenticated donor.
+      security:
+        - oauth2: [donor:self]
+      responses:
+        '200':
+          description: Donor.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Donor' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    patch:
+      tags: [Donors]
+      summary: Update the authenticated donor.
+      security:
+        - oauth2: [donor:self]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DonorUpdate' }
+      responses:
+        '200':
+          description: Updated donor.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Donor' }
+
+  /donors/me/donations:
+    get:
+      tags: [Donors]
+      summary: List the authenticated donor's donation history.
+      security:
+        - oauth2: [donor:self]
+      parameters:
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200':
+          description: Donor's donations.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Donation' }
+                  next_cursor: { type: [string, "null"] }
+
+  ##########################################################################
+  # Receipts
+  ##########################################################################
+  /receipts/{id}:
+    get:
+      tags: [Receipts]
+      summary: Get receipt.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+        - in: query
+          name: format
+          schema: { type: string, enum: [json, pdf, html] }
+          description: Defaults to json.
+      responses:
+        '200':
+          description: Receipt.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Receipt' }
+            application/pdf:
+              schema: { type: string, format: binary }
+            text/html:
+              schema: { type: string }
+
+  ##########################################################################
+  # Zakat (optional)
+  ##########################################################################
+  /zakat/calculator:
+    get:
+      tags: [Zakat]
+      summary: Get current Nisab values for a given currency.
+      description: |
+        Optional endpoint. Charities that don't serve Muslim donors can omit it.
+        Returns the current Nisab threshold (in both gold and silver bases) plus
+        the standard 2.5% rate, so apps can do client-side Zakat calculations.
+      security: []
+      parameters:
+        - in: query
+          name: currency
+          required: true
+          schema: { type: string, pattern: '^[A-Z]{3}$' }
+      responses:
+        '200':
+          description: Nisab and rate.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ZakatCalculatorResponse' }
+
+  ##########################################################################
+  # Webhooks
+  ##########################################################################
+  /webhooks:
+    post:
+      tags: [Webhooks]
+      summary: Register a webhook endpoint.
+      security:
+        - apiKey: [webhooks:manage]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/WebhookCreate' }
+      responses:
+        '201':
+          description: Webhook created. The `secret` field is returned ONCE.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Webhook' }
+    get:
+      tags: [Webhooks]
+      summary: List registered webhooks.
+      security:
+        - apiKey: [webhooks:manage]
+      responses:
+        '200':
+          description: Webhooks.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Webhook' }
+
+  /webhooks/{id}:
+    delete:
+      tags: [Webhooks]
+      summary: Delete a webhook.
+      security:
+        - apiKey: [webhooks:manage]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: Deleted.
+
+##############################################################################
+# Components
+##############################################################################
+components:
+
+  ###########################################################################
+  # Security schemes
+  ###########################################################################
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque
+      description: |
+        Static API key. Prefixed `ocas_live_` or `ocas_test_`.
+        Used in Authorization header: `Authorization: Bearer ocas_live_...`
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 Authorization Code Flow with PKCE.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://{charity_domain}/oauth/authorize
+          tokenUrl: https://{charity_domain}/oauth/token
+          refreshUrl: https://{charity_domain}/oauth/token
+          scopes:
+            openid: OpenID Connect ID token
+            profile: Donor profile
+            email: Donor email
+            donor:self: Operate on the authenticated donor's own resources
+            donations:read: Read donations
+            donations:write: Create and refund donations
+            subscriptions:read: Read subscriptions
+            subscriptions:write: Manage subscriptions
+            campaigns:read: Read campaigns
+            donors:read: Read donor records (admin)
+            donors:write: Manage donor records (admin)
+            webhooks:manage: Manage webhook subscriptions
+
+  ###########################################################################
+  # Parameters
+  ###########################################################################
+  parameters:
+    Limit:
+      in: query
+      name: limit
+      schema: { type: integer, minimum: 1, maximum: 100, default: 25 }
+      description: Page size.
+    Cursor:
+      in: query
+      name: cursor
+      schema: { type: string }
+      description: Opaque pagination cursor from a previous response.
+    IdOrSlug:
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      description: Resource ID or slug.
+
+  ###########################################################################
+  # Responses
+  ###########################################################################
+  responses:
+    BadRequest:
+      description: Malformed request.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Unauthorized:
+      description: Authentication required or invalid.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Unprocessable:
+      description: Validation failed.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    RateLimited:
+      description: Too many requests.
+      headers:
+        Retry-After:
+          schema: { type: integer }
+          description: Seconds to wait before retrying.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+
+  ###########################################################################
+  # Schemas
+  ###########################################################################
+  schemas:
+
+    # --- Common ----------------------------------------------------------
+    Money:
+      type: object
+      required: [value, currency]
+      properties:
+        value:
+          type: integer
+          minimum: 0
+          description: Amount in minor units (pence, cents, etc.). 5000 GBP = £50.00.
+        currency:
+          type: string
+          pattern: '^[A-Z]{3}$'
+          description: ISO 4217 currency code.
+
+    Address:
+      type: object
+      properties:
+        line1: { type: string, maxLength: 200 }
+        line2: { type: [string, "null"], maxLength: 200 }
+        city: { type: string, maxLength: 100 }
+        region: { type: [string, "null"], maxLength: 100, description: "State, province, county." }
+        postcode: { type: string, maxLength: 20 }
+        country:
+          type: string
+          pattern: '^[A-Z]{2}$'
+          description: ISO 3166-1 alpha-2.
+
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              description: Machine-readable code (snake_case).
+              examples: [invalid_amount, missing_field, donation_type_not_supported]
+            message:
+              type: string
+            field:
+              type: [string, "null"]
+              description: For validation errors, the field path.
+            request_id:
+              type: [string, "null"]
+
+    # --- Enums -----------------------------------------------------------
+    DonationType:
+      type: string
+      enum:
+        - general
+        - zakat
+        - zakat_al_fitr
+        - sadaqah
+        - sadaqah_jariyah
+        - lillah
+        - waqf
+        - fidya
+        - kaffarah
+        - qurbani
+        - aqiqah
+        - interest_purification
+
+    DonationStatus:
+      type: string
+      enum: [pending, completed, failed, refunded, partially_refunded, cancelled]
+
+    SubscriptionStatus:
+      type: string
+      enum: [active, paused, cancelled, completed, payment_failed]
+
+    Frequency:
+      type: string
+      enum: [daily, weekly, monthly, quarterly, annually]
+
+    AuthMode:
+      type: string
+      enum: [public, api_key, oauth2]
+
+    Asnaf:
+      type: string
+      description: One of the eight Quranic categories of Zakat recipients.
+      enum:
+        - fuqara
+        - masakin
+        - amilin_alayha
+        - muallafat_al_qulub
+        - fir_riqab
+        - gharimin
+        - fi_sabilillah
+        - ibn_al_sabil
+
+    TaxReliefScheme:
+      type: string
+      enum:
+        - uk_gift_aid
+        - us_501c3
+        - ca_cra
+        - au_dgr
+        - ie_chy
+        - de_spendenbescheinigung
+        - fr_reduction
+        - nl_anbi
+        - sg_ipc
+        - my_section44_6
+
+    # --- Charity ---------------------------------------------------------
+    Charity:
+      type: object
+      required: [name, legal_name, registration_numbers, auth, supported_currencies]
+      properties:
+        name: { type: string }
+        legal_name: { type: string }
+        description: { type: [string, "null"] }
+        website_url: { type: [string, "null"], format: uri }
+        logo_url: { type: [string, "null"], format: uri }
+        registration_numbers:
+          type: array
+          items:
+            type: object
+            required: [jurisdiction, type, value]
+            properties:
+              jurisdiction:
+                type: string
+                pattern: '^[A-Z]{2}$'
+              type:
+                type: string
+                examples: [charity_commission, hmrc_charities, ein, abn, cra, vereinsregister]
+              value: { type: string }
+        auth:
+          type: object
+          required: [mode]
+          properties:
+            mode: { $ref: '#/components/schemas/AuthMode' }
+            discovery_url:
+              type: [string, "null"]
+              format: uri
+              description: OAuth 2.0 authorization server metadata URL (oauth2 mode).
+            key_request_url:
+              type: [string, "null"]
+              format: uri
+              description: Where partners apply for an API key (api_key mode).
+            supported_scopes:
+              type: array
+              items: { type: string }
+        supported_currencies:
+          type: array
+          items: { type: string, pattern: '^[A-Z]{3}$' }
+        supported_donation_types:
+          type: array
+          items: { $ref: '#/components/schemas/DonationType' }
+        supported_tax_relief_schemes:
+          type: array
+          items: { $ref: '#/components/schemas/TaxReliefScheme' }
+        supported_frequencies:
+          type: array
+          items: { $ref: '#/components/schemas/Frequency' }
+        payment_methods:
+          type: array
+          items:
+            type: string
+            examples: [card, sepa_direct_debit, bacs_direct_debit, open_banking, apple_pay, google_pay, paypal, bank_transfer, crypto]
+        time_locked_types:
+          type: array
+          description: Donation types currently within an open window (e.g. Qurbani during Eid al-Adha).
+          items:
+            type: object
+            properties:
+              donation_type: { $ref: '#/components/schemas/DonationType' }
+              opens_at: { type: string, format: date-time }
+              closes_at: { type: string, format: date-time }
+        shariah_compliance:
+          type: [object, "null"]
+          properties:
+            scholars_or_board: { type: string }
+            fatwa_references:
+              type: array
+              items:
+                type: object
+                properties:
+                  issuer: { type: string }
+                  year: { type: integer }
+                  url: { type: [string, "null"], format: uri }
+            hundred_percent_zakat_policy: { type: boolean }
+            annual_zakat_audit_url: { type: [string, "null"], format: uri }
+        contact:
+          type: object
+          properties:
+            email: { type: string, format: email }
+            phone: { type: [string, "null"] }
+            address: { $ref: '#/components/schemas/Address' }
+        spec_version:
+          type: string
+          description: The OCAS spec version this server implements.
+          examples: ['0.1.0']
+
+    # --- Campaign / Fund -------------------------------------------------
+    Campaign:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        slug: { type: [string, "null"] }
+        name: { type: string }
+        description: { type: [string, "null"] }
+        image_url: { type: [string, "null"], format: uri }
+        start_at: { type: [string, "null"], format: date-time }
+        end_at: { type: [string, "null"], format: date-time }
+        target_amount: { $ref: '#/components/schemas/Money' }
+        current_amount: { $ref: '#/components/schemas/Money' }
+        donor_count: { type: [integer, "null"] }
+        allowed_donation_types:
+          type: array
+          items: { $ref: '#/components/schemas/DonationType' }
+        beneficiary_countries:
+          type: array
+          items: { type: string, pattern: '^[A-Z]{2}$' }
+
+    Fund:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        description: { type: [string, "null"] }
+        restricted:
+          type: boolean
+          description: True if money is legally ringfenced for this purpose.
+        allowed_donation_types:
+          type: array
+          items: { $ref: '#/components/schemas/DonationType' }
+
+    # --- Donor -----------------------------------------------------------
+    Donor:
+      type: object
+      properties:
+        id: { type: [string, "null"] }
+        first_name: { type: [string, "null"] }
+        last_name: { type: [string, "null"] }
+        email: { type: [string, "null"], format: email }
+        phone: { type: [string, "null"] }
+        address: { $ref: '#/components/schemas/Address' }
+        tax_residency:
+          type: [string, "null"]
+          pattern: '^[A-Z]{2}$'
+        language:
+          type: [string, "null"]
+          description: BCP 47 language tag, e.g. en, ar, ur, fr, tr.
+        consents:
+          type: array
+          items:
+            type: object
+            required: [purpose, granted]
+            properties:
+              purpose:
+                type: string
+                enum: [marketing_email, marketing_sms, marketing_post, marketing_phone, data_retention_beyond_legal_minimum]
+              granted: { type: boolean }
+              granted_at: { type: string, format: date-time }
+
+    DonorUpdate:
+      allOf:
+        - $ref: '#/components/schemas/Donor'
+
+    # --- Tax relief ------------------------------------------------------
+    TaxReliefDeclaration:
+      type: object
+      required: [scheme, declared_at]
+      discriminator:
+        propertyName: scheme
+        mapping:
+          uk_gift_aid: '#/components/schemas/UkGiftAidDeclaration'
+          us_501c3: '#/components/schemas/Us501c3Declaration'
+          ca_cra: '#/components/schemas/CaCraDeclaration'
+          au_dgr: '#/components/schemas/AuDgrDeclaration'
+          ie_chy: '#/components/schemas/IeChyDeclaration'
+          de_spendenbescheinigung: '#/components/schemas/DeSpendenbescheinigungDeclaration'
+          fr_reduction: '#/components/schemas/FrReductionDeclaration'
+          nl_anbi: '#/components/schemas/NlAnbiDeclaration'
+          sg_ipc: '#/components/schemas/SgIpcDeclaration'
+          my_section44_6: '#/components/schemas/MySection446Declaration'
+      properties:
+        scheme: { $ref: '#/components/schemas/TaxReliefScheme' }
+        declared_at: { type: string, format: date-time }
+        declaration_text_version:
+          type: [string, "null"]
+          description: Identifier for the exact declaration text shown to the donor.
+        covers:
+          type: string
+          enum: [this_gift_only, this_gift_and_all_future, all_past_four_years_and_future]
+
+    UkGiftAidDeclaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [uk_gift_aid]
+          properties:
+            uk_gift_aid:
+              type: object
+              required: [donor_full_name, donor_home_address, donor_confirms_taxpayer]
+              properties:
+                donor_full_name:
+                  type: string
+                  description: Full forenames + surname. HMRC does not accept initials.
+                donor_home_address: { $ref: '#/components/schemas/Address' }
+                donor_confirms_taxpayer: { type: boolean }
+                donor_confirms_pays_enough_tax:
+                  type: boolean
+                  description: Donor acknowledges they will personally make up any shortfall.
+                higher_rate_taxpayer:
+                  type: [boolean, "null"]
+                  description: For information only — the donor reclaims the difference themselves on self-assessment.
+
+    Us501c3Declaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [us_501c3]
+          properties:
+            us_501c3:
+              type: object
+              required: [ein, goods_or_services_provided]
+              properties:
+                ein:
+                  type: string
+                  pattern: '^[0-9]{2}-[0-9]{7}$'
+                goods_or_services_provided: { type: boolean }
+                goods_or_services_description: { type: [string, "null"] }
+                goods_or_services_value: { $ref: '#/components/schemas/Money' }
+
+    CaCraDeclaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [ca_cra]
+          properties:
+            ca_cra:
+              type: object
+              required: [registration_number, eligible_amount, receipt_serial_number]
+              properties:
+                registration_number: { type: string }
+                advantage_amount: { $ref: '#/components/schemas/Money' }
+                eligible_amount: { $ref: '#/components/schemas/Money' }
+                receipt_serial_number: { type: string }
+                place_of_issue: { type: string }
+
+    AuDgrDeclaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [au_dgr]
+          properties:
+            au_dgr:
+              type: object
+              required: [abn]
+              properties:
+                abn: { type: string }
+                dgr_endorsement_category: { type: string }
+                donation_is_gift_under_div30: { type: boolean }
+
+    IeChyDeclaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [ie_chy]
+          properties:
+            ie_chy:
+              type: object
+              properties:
+                donor_ppsn: { type: [string, "null"] }
+                certificate_type: { type: string, enum: [CHY3, CHY4] }
+                valid_until: { type: [string, "null"], format: date }
+
+    DeSpendenbescheinigungDeclaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [de_spendenbescheinigung]
+          properties:
+            de_spendenbescheinigung:
+              type: object
+              properties:
+                vereinsregister_number: { type: string }
+                freistellungsbescheid_date: { type: string, format: date }
+                issuing_finanzamt: { type: string }
+                form_variant: { type: string, enum: [short, long] }
+
+    FrReductionDeclaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [fr_reduction]
+          properties:
+            fr_reduction:
+              type: object
+              properties:
+                organisation_status:
+                  type: string
+                  enum: [interet_general, utilite_publique, culte]
+                siret: { type: string }
+                reduction_rate: { type: integer, enum: [66, 75] }
+                cerfa_form_number: { type: string }
+
+    NlAnbiDeclaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [nl_anbi]
+          properties:
+            nl_anbi:
+              type: object
+              properties:
+                rsin: { type: string }
+                is_periodic_gift: { type: boolean }
+                notarial_deed_reference: { type: [string, "null"] }
+
+    SgIpcDeclaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [sg_ipc]
+          properties:
+            sg_ipc:
+              type: object
+              properties:
+                ipc_number: { type: string }
+                donor_nric_or_fin: { type: [string, "null"] }
+                deduction_multiplier: { type: number }
+
+    MySection446Declaration:
+      allOf:
+        - $ref: '#/components/schemas/TaxReliefDeclaration'
+        - type: object
+          required: [my_section44_6]
+          properties:
+            my_section44_6:
+              type: object
+              properties:
+                irb_approval_number: { type: string }
+                donor_tax_file_number: { type: [string, "null"] }
+
+    # --- Islamic metadata ------------------------------------------------
+    ZakatMetadata:
+      type: object
+      properties:
+        asnaf_allocation:
+          type: array
+          description: How the charity intends to allocate this Zakat across the eight categories.
+          items:
+            type: object
+            required: [asnaf, percentage]
+            properties:
+              asnaf: { $ref: '#/components/schemas/Asnaf' }
+              percentage: { type: number, minimum: 0, maximum: 100 }
+        policy_url: { type: [string, "null"], format: uri }
+        policy_version: { type: [string, "null"] }
+        fatwa_references:
+          type: array
+          items:
+            type: object
+            properties:
+              issuer: { type: string }
+              reference: { type: string }
+              url: { type: [string, "null"], format: uri }
+        fully_distributed_within_hijri_year: { type: [boolean, "null"] }
+        admin_fee_deducted_from_zakat: { type: [boolean, "null"] }
+
+    QurbaniMetadata:
+      type: object
+      required: [animal]
+      properties:
+        animal:
+          type: string
+          enum: [sheep, goat, cow_share, cow_whole, camel_share, camel_whole]
+        beneficiary_country:
+          type: [string, "null"]
+          pattern: '^[A-Z]{2}$'
+        intention_for:
+          type: string
+          enum: [self, family, deceased]
+          default: self
+        deceased_name: { type: [string, "null"] }
+
+    AqiqahMetadata:
+      type: object
+      required: [child_name, child_gender, animal, number_of_animals]
+      properties:
+        child_name: { type: string }
+        child_gender: { type: string, enum: [male, female] }
+        animal:
+          type: string
+          enum: [sheep, goat, cow_share]
+        number_of_animals: { type: integer, minimum: 1, maximum: 7 }
+
+    # --- Dedication ------------------------------------------------------
+    Dedication:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [in_memory_of, in_honour_of, on_behalf_of]
+        name: { type: string }
+        notify:
+          type: [object, "null"]
+          description: Optionally notify a third party by email.
+          properties:
+            email: { type: string, format: email }
+            message: { type: [string, "null"] }
+
+    # --- Donation --------------------------------------------------------
+    DonationCreate:
+      type: object
+      required: [amount, donation_type]
+      properties:
+        amount: { $ref: '#/components/schemas/Money' }
+        donation_type: { $ref: '#/components/schemas/DonationType' }
+        donor:
+          $ref: '#/components/schemas/Donor'
+          description: Embedded donor for guest checkout. Omit if the donor is authenticated via oauth2.
+        anonymous:
+          type: boolean
+          default: false
+          description: Hide donor identity in public-facing displays (e.g. leaderboards). The charity still sees it.
+        campaign_id: { type: [string, "null"] }
+        fund_id: { type: [string, "null"] }
+        beneficiary_country:
+          type: [string, "null"]
+          pattern: '^[A-Z]{2}$'
+        message:
+          type: [string, "null"]
+          maxLength: 1000
+        dedication: { $ref: '#/components/schemas/Dedication' }
+        tax_relief_declarations:
+          type: array
+          items: { $ref: '#/components/schemas/TaxReliefDeclaration' }
+        zakat_metadata: { $ref: '#/components/schemas/ZakatMetadata' }
+        qurbani_metadata: { $ref: '#/components/schemas/QurbaniMetadata' }
+        aqiqah_metadata: { $ref: '#/components/schemas/AqiqahMetadata' }
+        cover_fees:
+          type: boolean
+          default: false
+          description: Donor opts to add an amount to cover payment processing fees.
+        payment_method_preference:
+          type: [string, "null"]
+          examples: [card, open_banking, apple_pay]
+        return_url:
+          type: [string, "null"]
+          format: uri
+          description: Where to send the donor after payment completes (if a redirect flow is used).
+        metadata:
+          type: object
+          additionalProperties: { type: string }
+          description: Free-form key/value pairs the integrator wants stored alongside the donation.
+
+    Donation:
+      allOf:
+        - $ref: '#/components/schemas/DonationCreate'
+        - type: object
+          required: [id, status, created_at]
+          properties:
+            id: { type: string }
+            status: { $ref: '#/components/schemas/DonationStatus' }
+            payment:
+              type: object
+              properties:
+                processor:
+                  type: string
+                  examples: [stripe, gocardless, paypal, adyen, mollie, square]
+                processor_ref: { type: [string, "null"] }
+                method_used: { type: [string, "null"] }
+                completed_at: { type: [string, "null"], format: date-time }
+            receipt_id: { type: [string, "null"] }
+            created_at: { type: string, format: date-time }
+            refunded_at: { type: [string, "null"], format: date-time }
+            refunded_amount: { $ref: '#/components/schemas/Money' }
+            subscription_id:
+              type: [string, "null"]
+              description: Present if this donation is one instalment of a subscription.
+
+    DonationCreateResponse:
+      type: object
+      required: [donation]
+      properties:
+        donation: { $ref: '#/components/schemas/Donation' }
+        payment_intent:
+          type: [object, "null"]
+          description: Processor-specific payment intent for client-side completion.
+          properties:
+            processor: { type: string }
+            client_secret: { type: [string, "null"] }
+            id: { type: string }
+        redirect_url:
+          type: [string, "null"]
+          format: uri
+          description: If present, send the donor here to complete payment.
+
+    # --- Subscription ----------------------------------------------------
+    SubscriptionCreate:
+      type: object
+      required: [amount, frequency, donation_type]
+      properties:
+        amount: { $ref: '#/components/schemas/Money' }
+        frequency: { $ref: '#/components/schemas/Frequency' }
+        donation_type: { $ref: '#/components/schemas/DonationType' }
+        donor: { $ref: '#/components/schemas/Donor' }
+        campaign_id: { type: [string, "null"] }
+        fund_id: { type: [string, "null"] }
+        start_at:
+          type: [string, "null"]
+          format: date-time
+        end_at:
+          type: [string, "null"]
+          format: date-time
+        max_payments:
+          type: [integer, "null"]
+          description: Stop after this many successful payments.
+        tax_relief_declarations:
+          type: array
+          items: { $ref: '#/components/schemas/TaxReliefDeclaration' }
+        anonymous: { type: boolean, default: false }
+        zakat_metadata: { $ref: '#/components/schemas/ZakatMetadata' }
+        metadata:
+          type: object
+          additionalProperties: { type: string }
+
+    SubscriptionUpdate:
+      type: object
+      properties:
+        amount: { $ref: '#/components/schemas/Money' }
+        frequency: { $ref: '#/components/schemas/Frequency' }
+        donation_type: { $ref: '#/components/schemas/DonationType' }
+        campaign_id: { type: [string, "null"] }
+        fund_id: { type: [string, "null"] }
+        end_at: { type: [string, "null"], format: date-time }
+        action:
+          type: string
+          enum: [pause, resume]
+
+    Subscription:
+      allOf:
+        - $ref: '#/components/schemas/SubscriptionCreate'
+        - type: object
+          required: [id, status, created_at, next_payment_at]
+          properties:
+            id: { type: string }
+            status: { $ref: '#/components/schemas/SubscriptionStatus' }
+            created_at: { type: string, format: date-time }
+            next_payment_at: { type: [string, "null"], format: date-time }
+            payments_completed: { type: integer }
+            total_donated: { $ref: '#/components/schemas/Money' }
+            last_payment_failure:
+              type: [object, "null"]
+              properties:
+                occurred_at: { type: string, format: date-time }
+                reason: { type: string }
+                update_payment_url: { type: [string, "null"], format: uri }
+
+    # --- Receipt ---------------------------------------------------------
+    Receipt:
+      type: object
+      required: [id, donation_id, issued_at, amount]
+      properties:
+        id: { type: string }
+        donation_id: { type: string }
+        issued_at: { type: string, format: date-time }
+        amount: { $ref: '#/components/schemas/Money' }
+        donor_name: { type: [string, "null"] }
+        charity_name: { type: string }
+        charity_registration_numbers:
+          type: array
+          items:
+            type: object
+            properties:
+              jurisdiction: { type: string }
+              type: { type: string }
+              value: { type: string }
+        tax_relief_schemes_applied:
+          type: array
+          items: { $ref: '#/components/schemas/TaxReliefScheme' }
+        pdf_url: { type: [string, "null"], format: uri }
+        html: { type: [string, "null"] }
+        locale: { type: string }
+
+    # --- Zakat -----------------------------------------------------------
+    ZakatCalculatorResponse:
+      type: object
+      required: [nisab, rate]
+      properties:
+        nisab:
+          type: object
+          required: [gold_based, silver_based, as_of]
+          properties:
+            gold_based: { $ref: '#/components/schemas/Money' }
+            silver_based: { $ref: '#/components/schemas/Money' }
+            as_of: { type: string, format: date-time }
+        rate:
+          type: number
+          description: Standard Zakat rate (2.5% = 0.025).
+        notes: { type: [string, "null"] }
+
+    # --- Webhooks --------------------------------------------------------
+    WebhookCreate:
+      type: object
+      required: [url, events]
+      properties:
+        url: { type: string, format: uri }
+        events:
+          type: array
+          items:
+            type: string
+            enum:
+              - donation.created
+              - donation.completed
+              - donation.failed
+              - donation.refunded
+              - subscription.created
+              - subscription.payment_succeeded
+              - subscription.payment_failed
+              - subscription.cancelled
+              - receipt.issued
+        description:
+          type: [string, "null"]
+
+    Webhook:
+      allOf:
+        - $ref: '#/components/schemas/WebhookCreate'
+        - type: object
+          required: [id, secret, created_at]
+          properties:
+            id: { type: string }
+            secret:
+              type: string
+              description: HMAC-SHA256 signing secret. Returned ONCE on creation.
+            created_at: { type: string, format: date-time }
+            active: { type: boolean }

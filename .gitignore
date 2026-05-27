@@ -1,0 +1,49 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node (for any future reference implementation)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm
+.yarn-integrity
+
+# Python (likewise)
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# Build / output
+dist/
+build/
+*.log
+
+# Local secrets — should never be committed
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Postman local working files
+*.postman_environment.json
+
+# Generated docs
+_site/
+.docusaurus/

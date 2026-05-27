@@ -1,0 +1,500 @@
+{
+  "info": {
+    "name": "Open Charity API Standard (OCAS) v0.1.0",
+    "description": "Postman collection for the Open Charity API Standard.\n\nFull spec: https://github.com/open-charity-api/spec\n\nThis collection is organised by resource. Set the `baseUrl` variable to the charity's OCAS endpoint, e.g. `https://example-charity.org/api/ocas/v1`. If the charity uses `api_key` or `oauth2` auth, also set the `accessToken` variable.\n\nIn `public` mode no token is needed and the Authorization header is omitted automatically.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "ocas-v0.1.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://example-charity.org/api/ocas/v1",
+      "type": "string",
+      "description": "The charity's OCAS endpoint root."
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string",
+      "description": "Bearer token. Leave blank for public-mode charities."
+    },
+    {
+      "key": "donationId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "subscriptionId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "campaignId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{accessToken}}", "type": "string" }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Strip Authorization header automatically when accessToken is empty (public mode).",
+          "const token = pm.collectionVariables.get('accessToken');",
+          "if (!token || token.trim() === '') {",
+          "  pm.request.headers.remove('Authorization');",
+          "}"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Charity",
+      "item": [
+        {
+          "name": "Get charity profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/charity", "host": ["{{baseUrl}}"], "path": ["charity"] },
+            "description": "Always public. Returns the charity's name, registration numbers, supported currencies, supported donation types, supported tax-relief schemes, and authentication mode."
+          },
+          "response": [
+            {
+              "name": "200 example",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": { "raw": "{{baseUrl}}/charity", "host": ["{{baseUrl}}"], "path": ["charity"] }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"name\": \"Example Relief\",\n  \"legal_name\": \"Example Relief Limited\",\n  \"description\": \"Humanitarian relief and development\",\n  \"website_url\": \"https://example-charity.org\",\n  \"registration_numbers\": [\n    { \"jurisdiction\": \"GB\", \"type\": \"charity_commission\", \"value\": \"1234567\" },\n    { \"jurisdiction\": \"GB\", \"type\": \"hmrc_charities\", \"value\": \"AB12345\" }\n  ],\n  \"auth\": { \"mode\": \"public\" },\n  \"supported_currencies\": [\"GBP\", \"USD\", \"EUR\"],\n  \"supported_donation_types\": [\"general\", \"zakat\", \"sadaqah\", \"sadaqah_jariyah\", \"lillah\", \"qurbani\", \"fidya\", \"kaffarah\"],\n  \"supported_tax_relief_schemes\": [\"uk_gift_aid\"],\n  \"supported_frequencies\": [\"daily\", \"weekly\", \"monthly\", \"annually\"],\n  \"payment_methods\": [\"card\", \"open_banking\", \"apple_pay\", \"google_pay\"],\n  \"spec_version\": \"0.1.0\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Campaigns",
+      "item": [
+        {
+          "name": "List campaigns",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/campaigns?active=true&limit=25",
+              "host": ["{{baseUrl}}"],
+              "path": ["campaigns"],
+              "query": [
+                { "key": "active", "value": "true" },
+                { "key": "limit", "value": "25" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get campaign by ID or slug",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/campaigns/{{campaignId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["campaigns", "{{campaignId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Funds",
+      "item": [
+        {
+          "name": "List funds",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/funds", "host": ["{{baseUrl}}"], "path": ["funds"] }
+          }
+        },
+        {
+          "name": "Get fund",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/funds/water-wells", "host": ["{{baseUrl}}"], "path": ["funds", "water-wells"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Donations",
+      "item": [
+        {
+          "name": "Create donation — minimal",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const body = pm.response.json();",
+                  "  if (body.donation && body.donation.id) {",
+                  "    pm.collectionVariables.set('donationId', body.donation.id);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{$guid}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": { \"value\": 2500, \"currency\": \"GBP\" },\n  \"donation_type\": \"sadaqah\",\n  \"donor\": {\n    \"email\": \"donor@example.com\",\n    \"first_name\": \"Aisha\",\n    \"last_name\": \"Khan\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/donations", "host": ["{{baseUrl}}"], "path": ["donations"] }
+          }
+        },
+        {
+          "name": "Create donation — with Gift Aid (UK)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{$guid}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": { \"value\": 5000, \"currency\": \"GBP\" },\n  \"donation_type\": \"general\",\n  \"donor\": {\n    \"email\": \"aisha@example.com\",\n    \"first_name\": \"Aisha\",\n    \"last_name\": \"Khan\",\n    \"address\": {\n      \"line1\": \"12 Example Road\",\n      \"city\": \"London\",\n      \"postcode\": \"E1 6AN\",\n      \"country\": \"GB\"\n    },\n    \"tax_residency\": \"GB\"\n  },\n  \"tax_relief_declarations\": [\n    {\n      \"scheme\": \"uk_gift_aid\",\n      \"declared_at\": \"2026-05-27T10:23:00Z\",\n      \"declaration_text_version\": \"hmrc-model-2024-v1\",\n      \"covers\": \"this_gift_and_all_future\",\n      \"uk_gift_aid\": {\n        \"donor_full_name\": \"Aisha Fatima Khan\",\n        \"donor_home_address\": {\n          \"line1\": \"12 Example Road\",\n          \"city\": \"London\",\n          \"postcode\": \"E1 6AN\",\n          \"country\": \"GB\"\n        },\n        \"donor_confirms_taxpayer\": true,\n        \"donor_confirms_pays_enough_tax\": true\n      }\n    }\n  ],\n  \"campaign_id\": \"ramadan-2026\",\n  \"message\": \"For my late father, may Allah have mercy on him.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/donations", "host": ["{{baseUrl}}"], "path": ["donations"] }
+          }
+        },
+        {
+          "name": "Create donation — Zakat with Asnaf allocation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{$guid}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": { \"value\": 125000, \"currency\": \"GBP\" },\n  \"donation_type\": \"zakat\",\n  \"donor\": {\n    \"email\": \"yusuf@example.com\",\n    \"first_name\": \"Yusuf\",\n    \"last_name\": \"Ahmed\",\n    \"tax_residency\": \"GB\"\n  },\n  \"zakat_metadata\": {\n    \"asnaf_allocation\": [\n      { \"asnaf\": \"fuqara\", \"percentage\": 60 },\n      { \"asnaf\": \"masakin\", \"percentage\": 30 },\n      { \"asnaf\": \"ibn_al_sabil\", \"percentage\": 10 }\n    ],\n    \"policy_url\": \"https://example-charity.org/zakat-policy\",\n    \"fully_distributed_within_hijri_year\": true,\n    \"admin_fee_deducted_from_zakat\": false\n  },\n  \"beneficiary_country\": \"YE\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/donations", "host": ["{{baseUrl}}"], "path": ["donations"] }
+          }
+        },
+        {
+          "name": "Create donation — Qurbani",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{$guid}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": { \"value\": 9500, \"currency\": \"GBP\" },\n  \"donation_type\": \"qurbani\",\n  \"donor\": {\n    \"email\": \"hassan@example.com\",\n    \"first_name\": \"Hassan\",\n    \"last_name\": \"Ali\"\n  },\n  \"qurbani_metadata\": {\n    \"animal\": \"sheep\",\n    \"beneficiary_country\": \"PK\",\n    \"intention_for\": \"deceased\",\n    \"deceased_name\": \"Muhammad Ali (Rahimahullah)\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/donations", "host": ["{{baseUrl}}"], "path": ["donations"] }
+          }
+        },
+        {
+          "name": "Create donation — US 501(c)(3)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{$guid}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": { \"value\": 50000, \"currency\": \"USD\" },\n  \"donation_type\": \"general\",\n  \"donor\": {\n    \"email\": \"sarah@example.com\",\n    \"first_name\": \"Sarah\",\n    \"last_name\": \"Williams\",\n    \"tax_residency\": \"US\"\n  },\n  \"tax_relief_declarations\": [\n    {\n      \"scheme\": \"us_501c3\",\n      \"declared_at\": \"2026-05-27T10:23:00Z\",\n      \"covers\": \"this_gift_only\",\n      \"us_501c3\": {\n        \"ein\": \"12-3456789\",\n        \"goods_or_services_provided\": false\n      }\n    }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/donations", "host": ["{{baseUrl}}"], "path": ["donations"] }
+          }
+        },
+        {
+          "name": "Get donation",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/donations/{{donationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["donations", "{{donationId}}"]
+            }
+          }
+        },
+        {
+          "name": "List donations (auth required)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/donations?status=completed&limit=25",
+              "host": ["{{baseUrl}}"],
+              "path": ["donations"],
+              "query": [
+                { "key": "status", "value": "completed" },
+                { "key": "limit", "value": "25" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Refund donation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Donor requested refund within charity refund window\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/donations/{{donationId}}/refund",
+              "host": ["{{baseUrl}}"],
+              "path": ["donations", "{{donationId}}", "refund"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "Create subscription — monthly Sadaqah",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const body = pm.response.json();",
+                  "  if (body.id) pm.collectionVariables.set('subscriptionId', body.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": { \"value\": 2000, \"currency\": \"GBP\" },\n  \"frequency\": \"monthly\",\n  \"donation_type\": \"sadaqah_jariyah\",\n  \"donor\": {\n    \"email\": \"layla@example.com\",\n    \"first_name\": \"Layla\",\n    \"last_name\": \"Hussain\"\n  },\n  \"fund_id\": \"water-wells\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/subscriptions", "host": ["{{baseUrl}}"], "path": ["subscriptions"] }
+          }
+        },
+        {
+          "name": "Create subscription — daily during Ramadan",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": { \"value\": 500, \"currency\": \"GBP\" },\n  \"frequency\": \"daily\",\n  \"donation_type\": \"sadaqah\",\n  \"start_at\": \"2027-02-17T00:00:00Z\",\n  \"end_at\": \"2027-03-18T23:59:59Z\",\n  \"donor\": {\n    \"email\": \"ibrahim@example.com\",\n    \"first_name\": \"Ibrahim\",\n    \"last_name\": \"Rahman\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/subscriptions", "host": ["{{baseUrl}}"], "path": ["subscriptions"] }
+          }
+        },
+        {
+          "name": "Get subscription",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/{{subscriptionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscriptions", "{{subscriptionId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update subscription — pause",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{ \"action\": \"pause\" }" },
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/{{subscriptionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscriptions", "{{subscriptionId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update subscription — change amount",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": { \"value\": 3000, \"currency\": \"GBP\" }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/{{subscriptionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscriptions", "{{subscriptionId}}"]
+            }
+          }
+        },
+        {
+          "name": "Cancel subscription",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/{{subscriptionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["subscriptions", "{{subscriptionId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Donors (oauth2 only)",
+      "item": [
+        {
+          "name": "Get authenticated donor",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/donors/me", "host": ["{{baseUrl}}"], "path": ["donors", "me"] }
+          }
+        },
+        {
+          "name": "Update authenticated donor",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"language\": \"ar\",\n  \"consents\": [\n    { \"purpose\": \"marketing_email\", \"granted\": true, \"granted_at\": \"2026-05-27T10:00:00Z\" },\n    { \"purpose\": \"marketing_sms\", \"granted\": false, \"granted_at\": \"2026-05-27T10:00:00Z\" }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/donors/me", "host": ["{{baseUrl}}"], "path": ["donors", "me"] }
+          }
+        },
+        {
+          "name": "List donor's donation history",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/donors/me/donations?limit=25",
+              "host": ["{{baseUrl}}"],
+              "path": ["donors", "me", "donations"],
+              "query": [{ "key": "limit", "value": "25" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Receipts",
+      "item": [
+        {
+          "name": "Get receipt (JSON)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/receipts/{{donationId}}?format=json",
+              "host": ["{{baseUrl}}"],
+              "path": ["receipts", "{{donationId}}"],
+              "query": [{ "key": "format", "value": "json" }]
+            }
+          }
+        },
+        {
+          "name": "Get receipt (PDF)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/receipts/{{donationId}}?format=pdf",
+              "host": ["{{baseUrl}}"],
+              "path": ["receipts", "{{donationId}}"],
+              "query": [{ "key": "format", "value": "pdf" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Zakat",
+      "item": [
+        {
+          "name": "Zakat calculator — GBP",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/zakat/calculator?currency=GBP",
+              "host": ["{{baseUrl}}"],
+              "path": ["zakat", "calculator"],
+              "query": [{ "key": "currency", "value": "GBP" }]
+            }
+          }
+        },
+        {
+          "name": "Zakat calculator — USD",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/zakat/calculator?currency=USD",
+              "host": ["{{baseUrl}}"],
+              "path": ["zakat", "calculator"],
+              "query": [{ "key": "currency", "value": "USD" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Register webhook",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://partner-app.example.com/ocas-webhook\",\n  \"events\": [\n    \"donation.completed\",\n    \"donation.refunded\",\n    \"subscription.payment_failed\"\n  ],\n  \"description\": \"Partner app reconciliation\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks"] }
+          }
+        },
+        {
+          "name": "List webhooks",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/webhooks", "host": ["{{baseUrl}}"], "path": ["webhooks"] }
+          }
+        },
+        {
+          "name": "Delete webhook",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/webhooks/wh_123",
+              "host": ["{{baseUrl}}"],
+              "path": ["webhooks", "wh_123"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

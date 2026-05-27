@@ -1,0 +1,23 @@
+{
+  "id": "evt_01HQXYZ789ABCDEF",
+  "type": "donation.succeeded",
+  "created_at": "2026-05-27T14:32:18Z",
+  "api_version": "1.0",
+  "data": {
+    "donation": {
+      "id": "don_01HQXYZ123",
+      "amount": {
+        "value": 2500,
+        "currency": "GBP"
+      },
+      "donation_type": "sadaqah",
+      "status": "succeeded",
+      "donor": {
+        "id": "donor_01HQXYZ456",
+        "email": "alex@example.com"
+      },
+      "created_at": "2026-05-27T14:32:11Z",
+      "receipt_id": "rcpt_01HQXYZ789"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "amount": {
+    "value": 50000,
+    "currency": "GBP"
+  },
+  "donor": {
+    "email": "y.khan@example.com",
+    "given_name": "Yusuf",
+    "family_name": "Khan"
+  },
+  "donation_type": "zakat",
+  "zakat_metadata": {
+    "asnaf_allocation": [
+      { "category": "fuqara", "percentage": 40 },
+      { "category": "masakin", "percentage": 30 },
+      { "category": "gharimin", "percentage": 15 },
+      { "category": "ibn_al_sabil", "percentage": 15 }
+    ],
+    "policy_url": "https://example-charity.org/zakat-policy",
+    "fatwa_references": [
+      "https://example-charity.org/fatwa/2025-zakat-distribution.pdf"
+    ],
+    "admin_fee_deducted_from_zakat": false,
+    "hundred_percent_zakat_policy": true
+  },
+  "payment": {
+    "method": "bank_transfer",
+    "provider_reference": "txn_98765"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "amount": {
+    "value": 2500,
+    "currency": "GBP"
+  },
+  "donor": {
+    "email": "alex@example.com",
+    "given_name": "Alex",
+    "family_name": "Hassan"
+  },
+  "donation_type": "sadaqah",
+  "payment": {
+    "method": "card",
+    "provider_reference": "pi_3PqXyZ4abc"
+  },
+  "metadata": {
+    "source_app": "example-mobile-app",
+    "source_app_version": "1.4.2"
+  }
+}

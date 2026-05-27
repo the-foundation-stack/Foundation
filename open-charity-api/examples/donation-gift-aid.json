@@ -1,0 +1,33 @@
+{
+  "amount": {
+    "value": 10000,
+    "currency": "GBP"
+  },
+  "donor": {
+    "email": "sarah.ahmed@example.com",
+    "given_name": "Sarah Jane",
+    "family_name": "Ahmed",
+    "address": {
+      "line1": "12 Oak Lane",
+      "line2": "Flat 3B",
+      "city": "Manchester",
+      "postcode": "M14 5TQ",
+      "country": "GB"
+    }
+  },
+  "donation_type": "sadaqah",
+  "tax_relief_declarations": [
+    {
+      "scheme": "uk_gift_aid",
+      "declaration_text_version": "2026.04",
+      "taxpayer_confirmation": true,
+      "declared_at": "2026-05-27T14:32:11Z",
+      "covers": "this_donation_only",
+      "ip_address": "203.0.113.42"
+    }
+  ],
+  "payment": {
+    "method": "card",
+    "provider_reference": "pi_3PqXyZ4abc"
+  }
+}

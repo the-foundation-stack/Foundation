@@ -1,0 +1,21 @@
+{
+  "amount_per_period": {
+    "value": 500,
+    "currency": "GBP"
+  },
+  "frequency": "daily",
+  "start_date": "2027-02-17",
+  "end_date": "2027-03-18",
+  "donor": {
+    "email": "h.rahman@example.com",
+    "given_name": "Habiba",
+    "family_name": "Rahman"
+  },
+  "donation_type": "sadaqah",
+  "fund_id": "fund_ramadan_food_packs",
+  "payment_method_token": "pm_card_tok_xyz",
+  "metadata": {
+    "campaign": "ramadan-2027",
+    "label": "Daily Sadaqah - Ramadan 2027"
+  }
+}

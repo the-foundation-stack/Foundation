@@ -1,0 +1,25 @@
+{
+  "amount": {
+    "value": 14500,
+    "currency": "GBP"
+  },
+  "donor": {
+    "email": "f.ali@example.com",
+    "given_name": "Fatima",
+    "family_name": "Ali"
+  },
+  "donation_type": "qurbani",
+  "qurbani_metadata": {
+    "animal_type": "sheep",
+    "share_count": 1,
+    "beneficiary_country": "YE",
+    "intention_name": "Fatima Ali",
+    "on_behalf_of": [
+      { "name": "Mohammed Ali", "relationship": "father" }
+    ]
+  },
+  "payment": {
+    "method": "card",
+    "provider_reference": "pi_3PrAbC9def"
+  }
+}
