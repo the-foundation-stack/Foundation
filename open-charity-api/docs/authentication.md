@@ -163,4 +163,4 @@ The receiver verifies by computing `HMAC-SHA256(secret, "{t}.{body}")` and const
 - mTLS for very high-trust server-to-server use cases (e.g. regulators).
 - WebAuthn for donor authentication where supported.
 
-None are required in v1.
+
