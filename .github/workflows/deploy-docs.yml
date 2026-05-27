@@ -32,7 +32,7 @@ jobs:
           mkdir -p _site/open-charity-api
           redocly build-docs open-charity-api/spec/openapi.yaml \
             --output _site/open-charity-api/index.html \
-            --title "OCAS — Open Charity API Standard"
+            --title "OCAS, Open Charity API Standard"
 
       - name: Copy landing page
         run: cp docs-site/index.html _site/index.html

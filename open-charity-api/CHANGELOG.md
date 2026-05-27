@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-## [0.1.0] — 2026-05-27
+## [0.1.0], 2026-05-27
 
 Initial draft release. Published under [The Foundation](https://github.com/the-foundation).
 
@@ -26,7 +26,7 @@ Initial draft release. Published under [The Foundation](https://github.com/the-f
 - Industry analysis, authentication guide, tax-relief guide, Islamic-giving guide, contributing guide
 
 ### Known limitations
-- Draft status — breaking changes are possible until `v1.0.0`
+- Draft status, breaking changes are possible until `v1.0.0`
 - No reference implementation yet (planned)
 - Donor-advised funds, donations in stocks/crypto specifics, legacies, in-kind donations, and grant disbursement are intentionally out of scope for v0.1
 - Country profiles beyond the 10 listed tax-relief schemes will be added by PR as adopters need them

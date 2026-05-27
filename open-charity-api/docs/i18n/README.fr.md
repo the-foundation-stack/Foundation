@@ -1,13 +1,13 @@
 # Open Charity API Standard (OCAS)
 
 > Une spécification ouverte et neutre pour les API de dons des organisations caritatives.
-> Conçue pour que n'importe quelle association — petite mosquée, ONG internationale, banque alimentaire, refuge — puisse s'intégrer à n'importe quelle application, créée par n'importe quel développeur, n'importe où dans le monde.
+> Conçue pour que n'importe quelle association, petite mosquée, ONG internationale, banque alimentaire, refuge, puisse s'intégrer à n'importe quelle application, créée par n'importe quel développeur, n'importe où dans le monde.
 
 ---
 
 ## Pourquoi ce projet existe
 
-Si vous avez déjà essayé de construire un logiciel qui dialogue avec des associations caritatives, vous vous êtes probablement heurté au même problème que la plupart des développeurs : **il n'existe aucun standard commun.** Les associations qui proposent une manière programmatique d'accepter les dons le font chacune à leur façon. Et la plupart n'en proposent aucune — elles s'appuient sur des plateformes tierces (JustGiving, Donorbox, GoFundMe, Enthuse), chacune avec sa propre interface, son propre modèle de données et ses propres frais.
+Si vous avez déjà essayé de construire un logiciel qui dialogue avec des associations caritatives, vous vous êtes probablement heurté au même problème que la plupart des développeurs : **il n'existe aucun standard commun.** Les associations qui proposent une manière programmatique d'accepter les dons le font chacune à leur façon. Et la plupart n'en proposent aucune, elles s'appuient sur des plateformes tierces (JustGiving, Donorbox, GoFundMe, Enthuse), chacune avec sa propre interface, son propre modèle de données et ses propres frais.
 
 Cette fragmentation a un coût :
 
@@ -22,12 +22,12 @@ Ce projet est délibérément :
 
 - **Neutre vis-à-vis des fournisseurs.** Pas lié à Stripe, PayPal, ou un processeur particulier.
 - **Religieusement et idéologiquement neutre en surface.** Fonctionne aussi bien pour une banque alimentaire laïque que pour une mosquée.
-- **Religieusement informé là où c'est nécessaire.** Support de premier ordre pour la Zakât, la Sadaqa, le Sadaqa Jariya, le Waqf, le Lillah, la Fidya, la Kaffara, le Qurbani, l'Aqiqa — aux côtés du Gift Aid, du 501(c)(3), du DGR, de l'ANBI et d'autres dispositifs d'allègement fiscal.
+- **Religieusement informé là où c'est nécessaire.** Support de premier ordre pour la Zakât, la Sadaqa, le Sadaqa Jariya, le Waqf, le Lillah, la Fidya, la Kaffara, le Qurbani, l'Aqiqa, aux côtés du Gift Aid, du 501(c)(3), du DGR, de l'ANBI et d'autres dispositifs d'allègement fiscal.
 - **Auto-hébergeable.** Chaque association peut faire tourner OCAS sur ses propres serveurs. Aucune autorité centrale. Aucun hub obligatoire.
 
 ## La vision plus large
 
-OCAS est le premier projet d'un effort plus vaste : construire des **standards, protocoles et infrastructures ouverts et partagés pour des logiciels socialement bénéfiques**, avec un accent particulier sur la possibilité pour les développeurs, universitaires et communautés musulmans de collaborer ouvertement — tout en gardant le travail lui-même accessible à tous.
+OCAS est le premier projet d'un effort plus vaste : construire des **standards, protocoles et infrastructures ouverts et partagés pour des logiciels socialement bénéfiques**, avec un accent particulier sur la possibilité pour les développeurs, universitaires et communautés musulmans de collaborer ouvertement, tout en gardant le travail lui-même accessible à tous.
 
 L'ambition est que des universités, chercheurs et professeurs ayant des théories sur la finance islamique, l'informatique éthique, les rails de paiement halal ou la distribution équitable puissent publier des implémentations de référence sur lesquelles tout développeur peut s'appuyer, avec attribution appropriée. Les pull requests, projets de RFC et articles académiques sont tous les bienvenus.
 
@@ -69,7 +69,7 @@ Voir `docs/islamic-considerations.md` pour les détails et les métadonnées req
 
 ## L'intention
 
-Ceci n'est pas un produit commercial. Il n'y a pas d'entreprise. Il n'y a pas de frais. L'objectif est un standard — appartenant à tout le monde et à personne — pour que les associations et les développeurs puissent collaborer sans passerelles propriétaires extractives.
+Ceci n'est pas un produit commercial. Il n'y a pas d'entreprise. Il n'y a pas de frais. L'objectif est un standard, appartenant à tout le monde et à personne, pour que les associations et les développeurs puissent collaborer sans passerelles propriétaires extractives.
 
 Si c'est utile, adoptez-le. Si quelque chose ne va pas, corrigez-le. Si quelque chose manque, ajoutez-le.
 

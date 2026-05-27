@@ -1,13 +1,13 @@
 # Open Charity API Standard (OCAS)
 
 > Spesifikasi terbuka dan netral untuk API donasi lembaga amal.
-> Dirancang agar lembaga amal mana pun — masjid kecil, LSM internasional, bank pangan, atau penampungan — dapat berintegrasi dengan aplikasi apa pun, yang dibuat oleh pengembang mana pun, di mana pun di dunia.
+> Dirancang agar lembaga amal mana pun, masjid kecil, LSM internasional, bank pangan, atau penampungan, dapat berintegrasi dengan aplikasi apa pun, yang dibuat oleh pengembang mana pun, di mana pun di dunia.
 
 ---
 
 ## Mengapa proyek ini ada
 
-Jika Anda pernah mencoba membangun perangkat lunak yang berkomunikasi dengan lembaga amal, Anda mungkin menemui masalah yang sama seperti kebanyakan pengembang: **tidak ada standar bersama.** Lembaga amal yang menawarkan cara programatik untuk menerima donasi melakukannya dengan caranya masing-masing. Dan kebanyakan tidak menawarkan apa pun — mereka bergantung pada platform pihak ketiga (JustGiving, Donorbox, GoFundMe, Enthuse) yang masing-masing memiliki antarmuka sendiri, model data sendiri, dan biaya sendiri.
+Jika Anda pernah mencoba membangun perangkat lunak yang berkomunikasi dengan lembaga amal, Anda mungkin menemui masalah yang sama seperti kebanyakan pengembang: **tidak ada standar bersama.** Lembaga amal yang menawarkan cara programatik untuk menerima donasi melakukannya dengan caranya masing-masing. Dan kebanyakan tidak menawarkan apa pun, mereka bergantung pada platform pihak ketiga (JustGiving, Donorbox, GoFundMe, Enthuse) yang masing-masing memiliki antarmuka sendiri, model data sendiri, dan biaya sendiri.
 
 Fragmentasi ini punya harga:
 
@@ -22,12 +22,12 @@ Proyek ini secara sengaja:
 
 - **Netral terhadap vendor.** Tidak terikat pada Stripe, PayPal, atau pemroses tertentu mana pun.
 - **Netral secara religius dan ideologis di permukaan.** Bekerja sama baiknya untuk bank pangan sekuler maupun masjid.
-- **Sadar agama jika diperlukan.** Dukungan kelas satu untuk Zakat, Sedekah, Sedekah Jariah, Wakaf, Lillah, Fidyah, Kafarat, Kurban, Akikah — bersama dengan Gift Aid, 501(c)(3), DGR, ANBI, dan skema keringanan pajak lainnya.
+- **Sadar agama jika diperlukan.** Dukungan kelas satu untuk Zakat, Sedekah, Sedekah Jariah, Wakaf, Lillah, Fidyah, Kafarat, Kurban, Akikah, bersama dengan Gift Aid, 501(c)(3), DGR, ANBI, dan skema keringanan pajak lainnya.
 - **Dapat di-host sendiri.** Setiap lembaga amal dapat menjalankan OCAS di servernya sendiri. Tidak ada otoritas pusat. Tidak ada hub wajib.
 
 ## Visi yang lebih luas
 
-OCAS adalah proyek pertama dari upaya yang lebih besar: membangun **standar, protokol, dan infrastruktur terbuka dan bersama untuk perangkat lunak yang bermanfaat secara sosial**, dengan penekanan khusus pada memungkinkan pengembang, akademisi, dan komunitas Muslim untuk berkolaborasi secara terbuka — sementara karyanya sendiri tetap dapat diakses oleh semua orang.
+OCAS adalah proyek pertama dari upaya yang lebih besar: membangun **standar, protokol, dan infrastruktur terbuka dan bersama untuk perangkat lunak yang bermanfaat secara sosial**, dengan penekanan khusus pada memungkinkan pengembang, akademisi, dan komunitas Muslim untuk berkolaborasi secara terbuka, sementara karyanya sendiri tetap dapat diakses oleh semua orang.
 
 Ambisinya adalah agar universitas, peneliti, dan profesor yang memiliki teori tentang keuangan Islam, komputasi etis, jalur pembayaran halal, atau distribusi yang adil dapat mempublikasikan implementasi referensi yang dapat digunakan oleh pengembang mana pun, dengan atribusi yang tepat. Pull request, draf RFC, dan makalah akademik semuanya disambut baik.
 
@@ -69,7 +69,7 @@ Lihat `docs/islamic-considerations.md` untuk detail dan metadata yang diperlukan
 
 ## Niat
 
-Ini bukan produk komersial. Tidak ada perusahaan. Tidak ada biaya. Tujuannya adalah standar — milik semua orang dan tidak ada seorang pun — agar lembaga amal dan pengembang dapat bekerja sama tanpa gerbang berpemilik yang ekstraktif.
+Ini bukan produk komersial. Tidak ada perusahaan. Tidak ada biaya. Tujuannya adalah standar, milik semua orang dan tidak ada seorang pun, agar lembaga amal dan pengembang dapat bekerja sama tanpa gerbang berpemilik yang ekstraktif.
 
 Jika berguna, adopsi. Jika ada yang salah, perbaiki. Jika ada yang hilang, tambahkan.
 

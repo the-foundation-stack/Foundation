@@ -1,10 +1,10 @@
 # Charity Industry Analysis
 
-> This document is the reasoning behind the OCAS specification. Every endpoint and every field exists because of something in here. If you're proposing a change, please read this first — and if you think it's wrong, please open an issue, because that means our reasoning is wrong too.
+> This document is the reasoning behind the OCAS specification. Every endpoint and every field exists because of something in here. If you're proposing a change, please read this first, and if you think it's wrong, please open an issue, because that means our reasoning is wrong too.
 
 ## 1. The landscape, briefly
 
-Globally, the charitable sector receives somewhere in the region of $500bn–$1tn a year in private donations, depending on whose methodology you trust. The UK alone sees roughly £13–15bn in individual giving annually. Despite the scale, the **technical infrastructure of the sector is fragmented to a degree that would not be tolerated in any other industry of comparable size**.
+Globally, the charitable sector receives somewhere in the region of $500bn-$1tn a year in private donations, depending on whose methodology you trust. The UK alone sees roughly £13-15bn in individual giving annually. Despite the scale, the **technical infrastructure of the sector is fragmented to a degree that would not be tolerated in any other industry of comparable size**.
 
 A typical charity's donation stack looks something like this:
 
@@ -35,7 +35,7 @@ After looking at the public-facing donation pages, integration docs, and FAQ pag
 ### 2.1 Money movement (the obvious bit)
 
 - Accept a one-off donation in a specified currency and amount.
-- Accept a recurring donation (weekly / monthly / quarterly / annually / **daily** — daily is increasingly requested for Ramadan use cases).
+- Accept a recurring donation (weekly / monthly / quarterly / annually / **daily**, daily is increasingly requested for Ramadan use cases).
 - Allow the donor to pay in their currency while the charity is denominated in another.
 - Support the dominant payment methods of the donor's region:
   - **UK / EU:** card, Direct Debit (BACS / SEPA), Open Banking pay-by-bank, Apple/Google Pay.
@@ -49,7 +49,7 @@ After looking at the public-facing donation pages, integration docs, and FAQ pag
 
 - Capture donor identity at varying levels of fidelity:
   - Anonymous (no personal data, no receipt).
-  - Email only (minimal — enough to send a receipt).
+  - Email only (minimal, enough to send a receipt).
   - Email + name + address (required for Gift Aid in the UK).
   - Full account (donor can log in, see history, manage subscriptions).
 - Capture GDPR-style consent for marketing, contact channel preferences, and data retention. *In the UK and EU, charities have been fined for getting this wrong.*
@@ -83,11 +83,11 @@ A donation receipt is a separate object from the tax-relief declaration. A recei
 
 Donors care, often deeply, where their money goes within the charity. Charities accommodate this through:
 
-- **Campaigns / appeals** — time-bound (Ramadan 2026, Winter Appeal, Türkiye Earthquake Emergency).
-- **Funds / projects** — long-running designated buckets (water wells, orphan sponsorship, masjid building fund).
-- **Restricted vs unrestricted** — legally meaningful in the UK. Restricted funds can only be spent on the specified purpose.
-- **Beneficiary geography** — "I want this to go to Gaza" / "I want this to stay in our local borough".
-- **Donation type** — even within a Muslim charity, Zakat money can only fund Zakat-eligible projects, Sadaqah is more flexible, Lillah is for masjid upkeep, Qurbani is time-locked to Eid al-Adha, etc.
+- **Campaigns / appeals**, time-bound (Ramadan 2026, Winter Appeal, Türkiye Earthquake Emergency).
+- **Funds / projects**, long-running designated buckets (water wells, orphan sponsorship, masjid building fund).
+- **Restricted vs unrestricted**, legally meaningful in the UK. Restricted funds can only be spent on the specified purpose.
+- **Beneficiary geography**, "I want this to go to Gaza" / "I want this to stay in our local borough".
+- **Donation type**, even within a Muslim charity, Zakat money can only fund Zakat-eligible projects, Sadaqah is more flexible, Lillah is for masjid upkeep, Qurbani is time-locked to Eid al-Adha, etc.
 
 **API implication:** a donation can reference an optional `campaign_id`, an optional `fund_id`, an optional `beneficiary_country`, and a `donation_type`. The charity exposes `/campaigns` and `/funds` so apps can render pickers.
 
@@ -117,7 +117,7 @@ Donors care, often deeply, where their money goes within the charity. Charities 
 - Receipts (transactional, sent immediately).
 - Thank-yous (may be transactional or part of a journey).
 - Tax-year summaries (annual, e.g. for US donors at year-end).
-- The API doesn't need to *send* these emails — but it does need to expose the data so the charity's marketing tool can.
+- The API doesn't need to *send* these emails, but it does need to expose the data so the charity's marketing tool can.
 
 ## 3. What's currently available, and where it falls short
 
@@ -127,7 +127,7 @@ Donors care, often deeply, where their money goes within the charity. Charities 
 | GoFundMe | No real API | No | Total | Aggressively closed ecosystem. |
 | Donorbox | Yes (REST) | No | Medium | Per-charity setup, sane API, but proprietary. |
 | Enthuse | Limited | No | Medium | UK-focused, white-label. |
-| Stripe (Climate / Charity) | Yes | No (Stripe-owned) | Low–medium | Excellent for payments, not a charity model. |
+| Stripe (Climate / Charity) | Yes | No (Stripe-owned) | Low-medium | Excellent for payments, not a charity model. |
 | PayPal Giving Fund | Yes | No | High | Routes donations via PPGF; not the charity directly. |
 | GlobalGiving | Yes | Documented | Medium | International, project-based. |
 | GiveWP | WordPress plugin | Open source | Low | But it's a plugin, not a public API spec. |
@@ -140,14 +140,14 @@ The gap is obvious: there is no vendor-neutral, open, charity-side-implementable
 Most general-purpose donation platforms either ignore Islamic giving categories entirely or bolt them on as a free-text dropdown. That is a missed opportunity:
 
 - **Zakat** must, by Islamic law, go to one of [eight specific categories of recipient](https://quran.com/9/60) (the Asnaf). A donor giving Zakat has a legitimate religious interest in knowing which Asnaf their money is reaching. Charities like Islamic Relief and Muslim Hands already publish Zakat policies; the API should expose this as structured data.
-- **Sadaqah Jariyah** (ongoing charity) implies the money funds something long-lasting (a well, a tree, a Quran printed) — donors often want a project linkage and updates.
+- **Sadaqah Jariyah** (ongoing charity) implies the money funds something long-lasting (a well, a tree, a Quran printed), donors often want a project linkage and updates.
 - **Waqf** is an endowment where the capital is preserved and only returns are distributed. It is structurally different from a donation and probably warrants its own object in a future spec version.
-- **Fidya** and **Kaffarah** are atonement payments with fixed per-day amounts (e.g. feeding one poor person per missed fast) — calculators and bulk pricing matter.
+- **Fidya** and **Kaffarah** are atonement payments with fixed per-day amounts (e.g. feeding one poor person per missed fast), calculators and bulk pricing matter.
 - **Qurbani / Udhiya** is time-locked to the four days of Eid al-Adha. The API must support time-windowed donation types that close automatically.
-- **Aqiqah** is a sacrifice on the birth of a child — usually one-off, often with naming/dedication.
+- **Aqiqah** is a sacrifice on the birth of a child, usually one-off, often with naming/dedication.
 - **Lillah** is general donation for charitable infrastructure (masjid running costs etc.), explicitly distinct from Zakat.
 
-Similar patterns exist outside Islam — Christian tithing, Jewish ma'aser kesafim, Hindu daana, Sikh dasvandh — and the same `donation_type` mechanism can carry those. OCAS exposes a base set and lets charities extend with `x-` prefixed custom types.
+Similar patterns exist outside Islam, Christian tithing, Jewish ma'aser kesafim, Hindu daana, Sikh dasvandh, and the same `donation_type` mechanism can carry those. OCAS exposes a base set and lets charities extend with `x-` prefixed custom types.
 
 ## 5. The data model, derived from the above
 
@@ -233,12 +233,12 @@ Custom extensions live under `x-` prefixed fields, as is the OpenAPI convention.
 
 ## 7. What we deliberately don't model (yet)
 
-- **Donor-advised funds (DAFs)** — complex, US-specific, future RFC.
-- **Stock/equity gifts** — needs broker integration, future RFC.
-- **Cryptocurrency donations** — supported as a payment method, but the tax treatment varies wildly by jurisdiction and is best left to the charity's processor.
-- **Legacies / bequests** — handled out-of-band by solicitors; not really an API surface.
-- **Volunteer time / in-kind gifts** — a different problem, possibly a separate spec.
-- **Grants from one charity to another** — different shape entirely.
+- **Donor-advised funds (DAFs)**, complex, US-specific, future RFC.
+- **Stock/equity gifts**, needs broker integration, future RFC.
+- **Cryptocurrency donations**, supported as a payment method, but the tax treatment varies wildly by jurisdiction and is best left to the charity's processor.
+- **Legacies / bequests**, handled out-of-band by solicitors; not really an API surface.
+- **Volunteer time / in-kind gifts**, a different problem, possibly a separate spec.
+- **Grants from one charity to another**, different shape entirely.
 
 Each of these is a legitimate future addition. We'd rather ship a tight v1 and grow it than ship a sprawling v0.1 that gets nothing right.
 

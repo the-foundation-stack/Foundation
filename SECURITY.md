@@ -21,9 +21,9 @@ Expect an initial acknowledgement within **7 days** and a triage decision within
 
 ## What's out of scope
 
-- Vulnerabilities in specific implementations of our specs — please report those to the implementer
+- Vulnerabilities in specific implementations of our specs, please report those to the implementer
 - Third-party services referenced for comparison (Stripe, JustGiving, etc.)
-- Issues in upstream tools (OpenAPI tooling, Postman, etc.) — report upstream
+- Issues in upstream tools (OpenAPI tooling, Postman, etc.), report upstream
 
 ## Coordinated disclosure
 

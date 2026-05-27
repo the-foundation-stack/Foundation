@@ -6,7 +6,7 @@ This project follows the [Contributor Covenant v2.1](https://www.contributor-cov
 
 ## Our pledge
 
-We — contributors and maintainers — pledge to make participation in our project and community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion (or absence thereof), or sexual identity and orientation.
+We, contributors and maintainers, pledge to make participation in our project and community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion (or absence thereof), or sexual identity and orientation.
 
 We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
@@ -40,10 +40,10 @@ Maintainers are obligated to respect the privacy and security of the reporter of
 
 Maintainers will follow these guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:
 
-1. **Correction** — Private written warning, clarification of why the behaviour was inappropriate.
-2. **Warning** — Public or private warning with consequences for continued behaviour.
-3. **Temporary ban** — Temporary removal from any interaction or public communication with the project.
-4. **Permanent ban** — Permanent removal from any kind of public interaction within the community.
+1. **Correction**, Private written warning, clarification of why the behaviour was inappropriate.
+2. **Warning**, Public or private warning with consequences for continued behaviour.
+3. **Temporary ban**, Temporary removal from any interaction or public communication with the project.
+4. **Permanent ban**, Permanent removal from any kind of public interaction within the community.
 
 ## Attribution
 

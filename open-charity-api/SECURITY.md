@@ -6,7 +6,7 @@ OCAS is currently at draft `v0.1.x`. While in draft, only the latest minor versi
 
 ## Reporting a vulnerability
 
-OCAS is a specification, not a running service — so "vulnerabilities" here means design flaws that would lead implementers to build insecure or privacy-violating systems if they followed the spec as written. Examples:
+OCAS is a specification, not a running service, so "vulnerabilities" here means design flaws that would lead implementers to build insecure or privacy-violating systems if they followed the spec as written. Examples:
 
 - Authentication flows that leak credentials
 - Webhook signing schemes vulnerable to replay or forgery
@@ -34,5 +34,5 @@ In scope:
 - Example payloads and the Postman collection (insofar as they would lead implementers astray)
 
 Out of scope:
-- Vulnerabilities in any specific implementation of OCAS — please report those to the implementer
+- Vulnerabilities in any specific implementation of OCAS, please report those to the implementer
 - Issues in third-party platforms referenced for comparison (Stripe, JustGiving, Donorbox, etc.)

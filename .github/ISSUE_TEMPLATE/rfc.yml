@@ -1,4 +1,4 @@
-name: 📜 RFC — Substantive proposal
+name: 📜 RFC, Substantive proposal
 description: Propose a substantive change to a spec, protocol, or design decision.
 title: "[RFC] "
 labels: ["rfc", "needs-discussion"]
@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        RFCs are for substantive design proposals — new endpoints, new schemas, breaking changes, new sub-projects, or significant rethinks of existing design.
+        RFCs are for substantive design proposals, new endpoints, new schemas, breaking changes, new sub-projects, or significant rethinks of existing design.
 
         For smaller suggestions (one extra field, a bug, a clarification), please use the bug or enhancement templates instead.
 

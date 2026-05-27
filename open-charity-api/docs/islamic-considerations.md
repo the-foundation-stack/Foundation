@@ -12,14 +12,14 @@ OCAS treats Islamic giving categories as first-class citizens, not as a free-tex
 | `zakat_al_fitr` | زكاة الفطر | Per-head obligatory payment before Eid al-Fitr prayer. | Yes (end of Ramadan) |
 | `sadaqah` | صدقة | General voluntary charity. | No |
 | `sadaqah_jariyah` | صدقة جارية | Ongoing/long-lasting charity (e.g. a well, a tree, a Quran printed). | No |
-| `lillah` | لله | "For the sake of Allah" — general donation, often for masjid running costs. | No |
+| `lillah` | لله | "For the sake of Allah", general donation, often for masjid running costs. | No |
 | `waqf` | وقف | Endowment: capital preserved, returns distributed. | No |
 | `fidya` | فدية | Compensation for a missed obligatory fast that cannot be made up (e.g. illness, pregnancy). | No |
 | `kaffarah` | كفارة | Atonement payment for a deliberately broken fast or oath. | No |
 | `qurbani` / `udhiya` | قربان / أضحية | Sacrifice on Eid al-Adha. | Yes (Eid al-Adha days) |
 | `aqiqah` | عقيقة | Sacrifice on the birth of a child. | No |
-| `interest_purification` | — | Riba purification: disposal of interest income to charity without seeking reward. **Cannot be Zakat.** | No |
-| `general` | — | Generic donation, no Islamic categorisation. | No |
+| `interest_purification` |, | Riba purification: disposal of interest income to charity without seeking reward. **Cannot be Zakat.** | No |
+| `general` |, | Generic donation, no Islamic categorisation. | No |
 
 A charity can extend this list with `x-` prefixed custom types (e.g. `x-mosque_building`), but the names above are the standard ones apps should rely on.
 
@@ -31,11 +31,11 @@ Zakat is not interchangeable with general donation. By Islamic law, Zakat funds 
 
 1. **Fuqara** (the poor)
 2. **Masakin** (the needy)
-3. **'Amilin 'Alayha** (those employed to collect and administer Zakat — capped, in most scholarly opinions)
+3. **'Amilin 'Alayha** (those employed to collect and administer Zakat, capped, in most scholarly opinions)
 4. **Muallafat al-Qulub** (those whose hearts are to be reconciled)
 5. **Fir-Riqab** (freeing those in bondage / debt slavery / modern slavery in contemporary fatawa)
 6. **Gharimin** (those in debt for legitimate needs)
-7. **Fi Sabilillah** (in the cause of Allah — broadly interpreted in modern jurisprudence)
+7. **Fi Sabilillah** (in the cause of Allah, broadly interpreted in modern jurisprudence)
 8. **Ibn al-Sabil** (the stranded traveller)
 
 Many serious Muslim donors want to know which of the eight Asnaf their Zakat is reaching. Charities like Islamic Relief, Muslim Hands, Human Appeal, and the IOM's Islamic Philanthropy Fund all publish their Zakat distribution policies.
@@ -145,11 +145,11 @@ Some Muslims, observing the prohibition on Riba, dispose of interest accidentall
 
 For a Muslim-oriented donation flow, the donor-facing UI typically needs:
 
-1. A **donation type picker** — at minimum: Zakat, Sadaqah, Sadaqah Jariyah, Lillah. Time-locked types (Zakat al-Fitr, Qurbani) only appear when the window is open.
+1. A **donation type picker**, at minimum: Zakat, Sadaqah, Sadaqah Jariyah, Lillah. Time-locked types (Zakat al-Fitr, Qurbani) only appear when the window is open.
 2. For Zakat specifically: a link to the charity's **Zakat policy** (from `zakat_metadata.policy_url` returned in `GET /charity` defaults, or per-campaign).
 3. For Qurbani: animal picker + country picker.
 4. For Fidya / Kaffarah: a small calculator.
-5. A **dedication** field ("On behalf of my late father — may Allah have mercy on him").
+5. A **dedication** field ("On behalf of my late father, may Allah have mercy on him").
 6. The recurring frequency picker should include **daily** for Ramadan use cases.
 
 ## Zakat calculator endpoint (optional)
@@ -193,8 +193,8 @@ None of these fields are required by the spec, but apps may filter or label char
 ## What this is not
 
 - OCAS does **not** issue fatawa.
-- OCAS does **not** verify Shariah compliance — that's the charity's responsibility and its scholars' responsibility.
-- OCAS does **not** dictate how Zakat must be distributed — only how the data about distribution is shaped so donors can see it.
+- OCAS does **not** verify Shariah compliance, that's the charity's responsibility and its scholars' responsibility.
+- OCAS does **not** dictate how Zakat must be distributed, only how the data about distribution is shaped so donors can see it.
 
 ## Beyond Islam
 

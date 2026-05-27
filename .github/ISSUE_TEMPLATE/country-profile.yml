@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for proposing a country profile. These are some of the most valuable contributions OCAS can receive — every new scheme makes the spec usable for more charities in more jurisdictions.
+        Thanks for proposing a country profile. These are some of the most valuable contributions OCAS can receive, every new scheme makes the spec usable for more charities in more jurisdictions.
 
   - type: input
     id: country
@@ -29,7 +29,7 @@ body:
     id: how-it-works
     attributes:
       label: How does the scheme work?
-      description: Brief description — who claims, what fields are required, what the charity has to declare or hold on file.
+      description: Brief description, who claims, what fields are required, what the charity has to declare or hold on file.
     validations:
       required: true
 

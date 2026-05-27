@@ -7,7 +7,7 @@ info:
     OCAS is an open, free-to-implement specification any charity can adopt so that
     any application can integrate with them through a single, consistent interface.
 
-    This is version 0.1.0 — draft. Breaking changes may still occur until v1.0.0.
+    This is version 0.1.0, draft. Breaking changes may still occur until v1.0.0.
     See https://github.com/the-foundation-stack/Foundation for the project home.
   contact:
     name: OCAS Maintainers
@@ -48,7 +48,7 @@ tags:
     description: Server-to-server event delivery.
 
 security:
-  - {}                # public mode — no auth
+  - {}                # public mode, no auth
   - apiKey: []
   - oauth2:
       - donations:write
@@ -604,7 +604,7 @@ components:
         Used in Authorization header: `Authorization: Bearer ocas_live_...`
     oauth2:
       type: oauth2
-      description: "OAuth 2.0 Authorization Code Flow with PKCE. The URLs below are illustrative — each charity publishes its own endpoints at its own domain. Discover via /charity."
+      description: "OAuth 2.0 Authorization Code Flow with PKCE. The URLs below are illustrative, each charity publishes its own endpoints at its own domain. Discover via /charity."
       flows:
         authorizationCode:
           authorizationUrl: https://charity.example.org/oauth/authorize
@@ -952,7 +952,7 @@ components:
       example:
         id: cmp_ramadan2026
         slug: ramadan-2026
-        name: Ramadan 2026 — Iftar for 1,000 Families
+        name: Ramadan 2026, Iftar for 1,000 Families
         description: Provide iftar meals to 1,000 families in need during Ramadan.
         image_url: https://hopemosque.example.org/campaigns/ramadan-2026.jpg
         start_at: 2026-02-17T00:00:00Z
@@ -1117,7 +1117,7 @@ components:
                   description: Donor acknowledges they will personally make up any shortfall.
                 higher_rate_taxpayer:
                   type: [boolean, "null"]
-                  description: For information only — the donor reclaims the difference themselves on self-assessment.
+                  description: For information only, the donor reclaims the difference themselves on self-assessment.
 
     Us501c3Declaration:
       allOf:

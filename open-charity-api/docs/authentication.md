@@ -27,8 +27,8 @@ Authorization: Bearer ocas_live_partner_a8f3e9c2d4b6...
 
 Scopes follow the pattern `<resource>:<action>`:
 
-- `donations:write` — create donations on behalf of users
-- `donations:read` — read donations (typically scoped to the partner's own donations)
+- `donations:write`, create donations on behalf of users
+- `donations:read`, read donations (typically scoped to the partner's own donations)
 - `subscriptions:write`
 - `subscriptions:read`
 - `campaigns:read` (often public anyway, but required if the charity hides drafts)
@@ -47,7 +47,7 @@ Scopes follow the pattern `<resource>:<action>`:
 
 Full OAuth 2.0 Authorization Code Flow with PKCE (RFC 7636) for public clients, and Client Credentials for server-to-server. The charity exposes:
 
-- `GET /.well-known/oauth-authorization-server` — RFC 8414 metadata document
+- `GET /.well-known/oauth-authorization-server`, RFC 8414 metadata document
 - `GET /oauth/authorize`
 - `POST /oauth/token`
 - `POST /oauth/revoke`
@@ -59,9 +59,9 @@ Full OAuth 2.0 Authorization Code Flow with PKCE (RFC 7636) for public clients, 
 - The charity wants to issue short-lived access tokens with refresh tokens.
 
 **Scopes** (in addition to those above):
-- `openid` — return an ID token
-- `profile`, `email` — standard OIDC scopes
-- `donor:self` — operate on the authenticated donor's resources only
+- `openid`, return an ID token
+- `profile`, `email`, standard OIDC scopes
+- `donor:self`, operate on the authenticated donor's resources only
 
 **ID Token:** if the charity supports OpenID Connect, an ID token signed with RS256 or ES256 SHOULD be returned alongside the access token. Apps can then identify the donor without an additional `/userinfo` call.
 

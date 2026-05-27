@@ -1,13 +1,13 @@
 # Open Charity API Standard (OCAS)
 
 > Spesifikasi terbuka dan neutral untuk API derma badan kebajikan.
-> Direka supaya mana-mana badan kebajikan — masjid kecil, NGO antarabangsa, bank makanan, atau pusat perlindungan — boleh berintegrasi dengan mana-mana aplikasi, yang dibina oleh mana-mana pembangun, di mana-mana sahaja di dunia.
+> Direka supaya mana-mana badan kebajikan, masjid kecil, NGO antarabangsa, bank makanan, atau pusat perlindungan, boleh berintegrasi dengan mana-mana aplikasi, yang dibina oleh mana-mana pembangun, di mana-mana sahaja di dunia.
 
 ---
 
 ## Mengapa projek ini wujud
 
-Jika anda pernah cuba membina perisian yang berkomunikasi dengan badan kebajikan, anda mungkin menemui masalah yang sama seperti kebanyakan pembangun: **tiada piawaian bersama.** Badan kebajikan yang menawarkan cara berprogram untuk menerima derma melakukannya mengikut cara masing-masing. Dan kebanyakannya tidak menawarkan apa-apa — mereka bergantung pada platform pihak ketiga (JustGiving, Donorbox, GoFundMe, Enthuse) yang setiap satunya mempunyai antara muka sendiri, model data sendiri, dan caj sendiri.
+Jika anda pernah cuba membina perisian yang berkomunikasi dengan badan kebajikan, anda mungkin menemui masalah yang sama seperti kebanyakan pembangun: **tiada piawaian bersama.** Badan kebajikan yang menawarkan cara berprogram untuk menerima derma melakukannya mengikut cara masing-masing. Dan kebanyakannya tidak menawarkan apa-apa, mereka bergantung pada platform pihak ketiga (JustGiving, Donorbox, GoFundMe, Enthuse) yang setiap satunya mempunyai antara muka sendiri, model data sendiri, dan caj sendiri.
 
 Pemecahan ini ada kosnya:
 
@@ -22,12 +22,12 @@ Projek ini sengaja:
 
 - **Neutral terhadap vendor.** Tidak terikat dengan Stripe, PayPal, atau pemproses tertentu.
 - **Neutral dari segi agama dan ideologi di permukaan.** Berfungsi sama baik untuk bank makanan sekular dan masjid.
-- **Memahami agama apabila perlu.** Sokongan kelas pertama untuk Zakat, Sedekah, Sedekah Jariah, Wakaf, Lillah, Fidyah, Kifarat, Korban, Akikah — bersama Gift Aid, 501(c)(3), DGR, ANBI, dan skim pelepasan cukai lain.
+- **Memahami agama apabila perlu.** Sokongan kelas pertama untuk Zakat, Sedekah, Sedekah Jariah, Wakaf, Lillah, Fidyah, Kifarat, Korban, Akikah, bersama Gift Aid, 501(c)(3), DGR, ANBI, dan skim pelepasan cukai lain.
 - **Boleh dihos sendiri.** Setiap badan kebajikan boleh menjalankan OCAS pada pelayan mereka sendiri. Tiada autoriti pusat. Tiada hab wajib.
 
 ## Visi yang lebih luas
 
-OCAS ialah projek pertama daripada usaha yang lebih besar: membina **piawaian, protokol, dan infrastruktur terbuka dan dikongsi untuk perisian yang bermanfaat secara sosial**, dengan penekanan khusus untuk membolehkan pembangun, ahli akademik, dan komuniti Muslim berkolaborasi secara terbuka — sementara karya itu sendiri kekal boleh diakses oleh semua orang.
+OCAS ialah projek pertama daripada usaha yang lebih besar: membina **piawaian, protokol, dan infrastruktur terbuka dan dikongsi untuk perisian yang bermanfaat secara sosial**, dengan penekanan khusus untuk membolehkan pembangun, ahli akademik, dan komuniti Muslim berkolaborasi secara terbuka, sementara karya itu sendiri kekal boleh diakses oleh semua orang.
 
 Cita-citanya ialah agar universiti, penyelidik, dan profesor yang mempunyai teori tentang kewangan Islam, pengkomputeran beretika, laluan pembayaran halal, atau pengagihan adil dapat menerbitkan pelaksanaan rujukan yang boleh dibangunkan oleh mana-mana pembangun, dengan atribusi yang sewajarnya. Pull request, draf RFC, dan kertas akademik semuanya dialu-alukan.
 
@@ -69,7 +69,7 @@ Lihat `docs/islamic-considerations.md` untuk butiran dan metadata yang diperluka
 
 ## Niat
 
-Ini bukan produk komersial. Tiada syarikat. Tiada caj. Matlamatnya ialah satu piawaian — milik semua orang dan bukan milik sesiapa — supaya badan kebajikan dan pembangun boleh bekerjasama tanpa gerbang berhakmilik yang mengeksploitasi.
+Ini bukan produk komersial. Tiada syarikat. Tiada caj. Matlamatnya ialah satu piawaian, milik semua orang dan bukan milik sesiapa, supaya badan kebajikan dan pembangun boleh bekerjasama tanpa gerbang berhakmilik yang mengeksploitasi.
 
 Jika ia berguna, gunakan. Jika ada yang salah, betulkan. Jika ada yang kurang, tambahkan.
 

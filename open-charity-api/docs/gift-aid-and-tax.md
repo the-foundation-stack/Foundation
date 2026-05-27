@@ -1,6 +1,6 @@
 # Tax Relief: Gift Aid and International Equivalents
 
-Most countries with a meaningful charitable sector have some form of tax incentive that increases the effective value of a donation. The schemes differ in mechanics (donor deduction vs charity reclaim), thresholds, paperwork, and which charities qualify. The OCAS data model is designed so a single donation can carry zero, one, or many `tax_relief_declarations` — one per scheme that applies to that donor and that gift.
+Most countries with a meaningful charitable sector have some form of tax incentive that increases the effective value of a donation. The schemes differ in mechanics (donor deduction vs charity reclaim), thresholds, paperwork, and which charities qualify. The OCAS data model is designed so a single donation can carry zero, one, or many `tax_relief_declarations`, one per scheme that applies to that donor and that gift.
 
 This document explains how each major scheme maps to the spec.
 
@@ -33,20 +33,20 @@ This document explains how each major scheme maps to the spec.
 
 `scheme` is a discriminator. The corresponding scheme-specific object (`uk_gift_aid`, `us_501c3`, `au_dgr`, etc.) carries the fields that scheme actually needs. Charities only implement the schemes they support; apps only render UI for the schemes the charity declares in `GET /charity → supported_tax_relief_schemes`.
 
-## UK — Gift Aid (`uk_gift_aid`)
+## UK, Gift Aid (`uk_gift_aid`)
 
 **What it is.** When a UK income-tax or capital-gains-tax payer makes a "qualifying donation" to an HMRC-recognised charity and provides a valid declaration, the charity can reclaim 25p for every £1 donated (i.e. 25% of the basic-rate tax the donor has already paid). Higher-rate taxpayers can claim back the difference between basic and higher rate on their self-assessment.
 
 **Declaration requirements (HMRC, as of 2026).** A valid declaration must contain:
 
-1. The **donor's full forename(s)** — not initials.
-2. The **donor's home address** — work / care-of / PO Box addresses are not acceptable. Postcode at minimum.
+1. The **donor's full forename(s)**, not initials.
+2. The **donor's home address**, work / care-of / PO Box addresses are not acceptable. Postcode at minimum.
 3. The **name of the charity**.
-4. The **identity of the gift(s)** — this one gift, or all future gifts, or "all gifts I have made in the past 4 years and all future gifts".
+4. The **identity of the gift(s)**, this one gift, or all future gifts, or "all gifts I have made in the past 4 years and all future gifts".
 5. The donor's **confirmation** that they want Gift Aid claimed.
 6. The donor must be **made aware** that if they have not paid enough income or CGT to cover the amount the charity will reclaim, they will need to make up the difference themselves. (This notice doesn't need to be inside the declaration, but charities almost always include it.)
 
-**Spec fields:** the `uk_gift_aid` object above carries all six. The `declaration_text_version` is the charity's identifier for the exact wording shown to the donor at the time — useful for audit if HMRC questions a claim.
+**Spec fields:** the `uk_gift_aid` object above carries all six. The `declaration_text_version` is the charity's identifier for the exact wording shown to the donor at the time, useful for audit if HMRC questions a claim.
 
 **GASDS (Gift Aid Small Donations Scheme).** Cash and contactless donations up to £30 each can be reclaimed under GASDS without a declaration, up to £8,000 per tax year (capped at 10× the charity's Gift Aid claims). This is a charity-side reclaim, not a donor-side declaration; it has no field in the donation object. Charities track it internally from their bookkeeping.
 
@@ -54,11 +54,11 @@ This document explains how each major scheme maps to the spec.
 
 **Reclaim mechanics.** Charities file claims with HMRC via Charities Online or a software submission to the HMRC API quarterly (or more frequently). OCAS does not yet expose an endpoint that bundles a claim file, but a future version may; the underlying donation data already contains everything HMRC requires.
 
-## US — 501(c)(3) (`us_501c3`)
+## US, 501(c)(3) (`us_501c3`)
 
 **What it is.** Donations to organisations recognised under IRS section 501(c)(3) are deductible by the donor against US federal income tax (and most state taxes), subject to AGI percentage limits.
 
-**Declaration requirements.** Unlike Gift Aid, the donor doesn't "declare" up-front — they keep the receipt. But the charity MUST provide a "contemporaneous written acknowledgment" for any single gift of $250 or more, containing:
+**Declaration requirements.** Unlike Gift Aid, the donor doesn't "declare" up-front, they keep the receipt. But the charity MUST provide a "contemporaneous written acknowledgment" for any single gift of $250 or more, containing:
 
 1. The amount of cash and a description (not value) of any non-cash contribution.
 2. A statement of whether the charity provided any goods or services in consideration, in whole or in part, for the gift.
@@ -81,7 +81,7 @@ This document explains how each major scheme maps to the spec.
 
 The `ein` is the charity's IRS Employer Identification Number. Apps should display "Tax ID: 12-3456789" on the receipt.
 
-## Canada — CRA Donation Receipt (`ca_cra`)
+## Canada, CRA Donation Receipt (`ca_cra`)
 
 **What it is.** Registered Canadian charities issue "official donation receipts" that donors use for a federal credit (15% on first $200, 29% above) plus provincial credits.
 
@@ -100,7 +100,7 @@ The `ein` is the charity's IRS Employer Identification Number. Apps should displ
 }
 ```
 
-## Australia — DGR (`au_dgr`)
+## Australia, DGR (`au_dgr`)
 
 **What it is.** Donations of $2 or more to charities with Deductible Gift Recipient endorsement are deductible against Australian income tax at the donor's marginal rate.
 
@@ -117,7 +117,7 @@ The `ein` is the charity's IRS Employer Identification Number. Apps should displ
 
 A receipt is required for amounts above $2; charities typically issue one for every donation.
 
-## Ireland — CHY Charitable Donations Scheme (`ie_chy`)
+## Ireland, CHY Charitable Donations Scheme (`ie_chy`)
 
 **What it is.** For donations ≥ €250 in a tax year from a PAYE or self-assessed donor, the charity can reclaim tax at a blended rate of 31%. The donor signs CHY3 (5-year enduring) or CHY4 (single year) certificate.
 
@@ -132,7 +132,7 @@ A receipt is required for amounts above $2; charities typically issue one for ev
 }
 ```
 
-## Germany — Spendenbescheinigung (`de_spendenbescheinigung`)
+## Germany, Spendenbescheinigung (`de_spendenbescheinigung`)
 
 **What it is.** Recognised gemeinnützige (charitable) organisations issue a Zuwendungsbestätigung (donation confirmation) which the donor uses to reduce taxable income by up to 20% of total income.
 
@@ -150,7 +150,7 @@ For donations under €300, a simplified receipt (bank statement + the charity's
 }
 ```
 
-## France — Réduction d'impôt (`fr_reduction`)
+## France, Réduction d'impôt (`fr_reduction`)
 
 **What it is.** Donations to organisations of "intérêt général" qualify for a 66% income-tax reduction (75% for some categories like food/lodging for the destitute), capped at 20% of taxable income. The donor receives a *reçu fiscal* (Cerfa form 11580).
 
@@ -166,7 +166,7 @@ For donations under €300, a simplified receipt (bank statement + the charity's
 }
 ```
 
-## Netherlands — ANBI (`nl_anbi`)
+## Netherlands, ANBI (`nl_anbi`)
 
 **What it is.** Donations to "Algemeen Nut Beogende Instellingen" are deductible. Periodic gifts (5+ year commitments) via notarial deed historically gave 100%+ deduction; one-off gifts have a threshold-and-cap structure.
 
@@ -182,9 +182,9 @@ For donations under €300, a simplified receipt (bank statement + the charity's
 }
 ```
 
-## Singapore — IPC (`sg_ipc`)
+## Singapore, IPC (`sg_ipc`)
 
-**What it is.** Donations to Institutions of a Public Character are deductible at 250% — among the most generous schemes globally.
+**What it is.** Donations to Institutions of a Public Character are deductible at 250%, among the most generous schemes globally.
 
 ```jsonc
 {
@@ -197,7 +197,7 @@ For donations under €300, a simplified receipt (bank statement + the charity's
 }
 ```
 
-## Malaysia — Section 44(6) (`my_section44_6`)
+## Malaysia, Section 44(6) (`my_section44_6`)
 
 ```jsonc
 {
@@ -211,7 +211,7 @@ For donations under €300, a simplified receipt (bank statement + the charity's
 
 ## A note on cross-border giving
 
-In most jurisdictions, **a donor cannot deduct a donation made directly to a foreign charity**. The standard workaround is to give via a domestic intermediary that holds local charitable status and grants onwards (CAF in the UK, NPT in the US, Foundation Source in Europe). The donation API itself doesn't need to model this — from the donor's perspective they're donating to the intermediary, and the intermediary's OCAS endpoint would issue the local declaration.
+In most jurisdictions, **a donor cannot deduct a donation made directly to a foreign charity**. The standard workaround is to give via a domestic intermediary that holds local charitable status and grants onwards (CAF in the UK, NPT in the US, Foundation Source in Europe). The donation API itself doesn't need to model this, from the donor's perspective they're donating to the intermediary, and the intermediary's OCAS endpoint would issue the local declaration.
 
 A future RFC may add an `intended_beneficiary_charity` field for transparency.
 
@@ -223,14 +223,14 @@ A future RFC may add an `intended_beneficiary_charity` field for transparency.
 4. Send the declaration on `POST /donations` in the `tax_relief_declarations` array.
 5. Use the receipt URL returned in the response to give the donor proof.
 
-That's it. Apps don't need to know the legal mechanics of each scheme — only that they need to collect certain fields when the donor is in jurisdiction X and the charity supports scheme Y.
+That's it. Apps don't need to know the legal mechanics of each scheme, only that they need to collect certain fields when the donor is in jurisdiction X and the charity supports scheme Y.
 
 ## What charities must do
 
 For each scheme they support, charities need to:
 
 1. Be properly registered with the relevant authority (HMRC, IRS, CRA, ATO, Finanzamt, etc.).
-2. Use a `declaration_text_version` they can show to auditors — the exact wording shown to the donor when they ticked the box.
+2. Use a `declaration_text_version` they can show to auditors, the exact wording shown to the donor when they ticked the box.
 3. Retain declarations for the period required by the relevant authority (usually 6 years from end of accounting period for UK Gift Aid; 7 years for US 501(c)(3); varies elsewhere).
 4. File the claims with the authority on the relevant schedule. OCAS does not file claims for you; it gives you clean structured data to file them with.
 

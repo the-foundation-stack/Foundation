@@ -1,13 +1,13 @@
 # Open Charity API Standard (OCAS)
 
 > Una especificación abierta y neutral para las APIs de donaciones de organizaciones benéficas.
-> Diseñada para que cualquier entidad — una mezquita pequeña, una ONG internacional, un banco de alimentos o un albergue — pueda integrarse con cualquier aplicación, creada por cualquier desarrollador, en cualquier lugar del mundo.
+> Diseñada para que cualquier entidad, una mezquita pequeña, una ONG internacional, un banco de alimentos o un albergue, pueda integrarse con cualquier aplicación, creada por cualquier desarrollador, en cualquier lugar del mundo.
 
 ---
 
 ## Por qué existe este proyecto
 
-Si alguna vez has intentado construir software que se comunique con organizaciones benéficas, probablemente te hayas encontrado con el mismo problema que la mayoría de desarrolladores: **no existe un estándar común.** Las entidades que ofrecen alguna forma programática de aceptar donaciones lo hacen cada una a su manera. Y la mayoría no ofrecen nada — dependen de plataformas de terceros (JustGiving, Donorbox, GoFundMe, Enthuse), cada una con su propia interfaz, su propio modelo de datos y sus propias tarifas.
+Si alguna vez has intentado construir software que se comunique con organizaciones benéficas, probablemente te hayas encontrado con el mismo problema que la mayoría de desarrolladores: **no existe un estándar común.** Las entidades que ofrecen alguna forma programática de aceptar donaciones lo hacen cada una a su manera. Y la mayoría no ofrecen nada, dependen de plataformas de terceros (JustGiving, Donorbox, GoFundMe, Enthuse), cada una con su propia interfaz, su propio modelo de datos y sus propias tarifas.
 
 Esta fragmentación tiene un coste:
 
@@ -22,12 +22,12 @@ Este proyecto es deliberadamente:
 
 - **Neutral respecto a proveedores.** No está atado a Stripe, PayPal ni a ningún procesador en concreto.
 - **Religiosa e ideológicamente neutral en su superficie.** Funciona igual de bien para un banco de alimentos laico o para una mezquita.
-- **Religiosamente informado donde importa.** Soporte de primera clase para Zakat, Sadaqah, Sadaqah Jariyah, Waqf, Lillah, Fidya, Kaffarah, Qurbani, Aqiqah — junto con Gift Aid, 501(c)(3), DGR, ANBI y otras desgravaciones fiscales.
+- **Religiosamente informado donde importa.** Soporte de primera clase para Zakat, Sadaqah, Sadaqah Jariyah, Waqf, Lillah, Fidya, Kaffarah, Qurbani, Aqiqah, junto con Gift Aid, 501(c)(3), DGR, ANBI y otras desgravaciones fiscales.
 - **Autohospedable.** Cada entidad puede ejecutar OCAS en sus propios servidores. No hay autoridad central. No hay hub obligatorio.
 
 ## La visión más amplia
 
-OCAS es el primer proyecto de un esfuerzo mayor: construir **estándares, protocolos e infraestructura abiertos y compartidos para software socialmente beneficioso**, con un énfasis particular en permitir que desarrolladores, académicos y comunidades musulmanes colaboren abiertamente — manteniendo el trabajo en sí accesible a todos.
+OCAS es el primer proyecto de un esfuerzo mayor: construir **estándares, protocolos e infraestructura abiertos y compartidos para software socialmente beneficioso**, con un énfasis particular en permitir que desarrolladores, académicos y comunidades musulmanes colaboren abiertamente, manteniendo el trabajo en sí accesible a todos.
 
 La ambición es que universidades, investigadores y profesores con teorías sobre finanzas islámicas, computación ética, vías de pago halal o distribución justa puedan publicar implementaciones de referencia sobre las que cualquier desarrollador pueda construir, con la debida atribución. Los pull requests, borradores de RFC y artículos académicos son todos bienvenidos.
 
@@ -69,7 +69,7 @@ Consulta `docs/islamic-considerations.md` para detalles y metadatos requeridos.
 
 ## La intención
 
-Esto no es un producto comercial. No hay empresa. No hay tarifas. El objetivo es un estándar — propiedad de todos y de nadie — para que las organizaciones benéficas y los desarrolladores puedan colaborar sin pasarelas propietarias extractivas.
+Esto no es un producto comercial. No hay empresa. No hay tarifas. El objetivo es un estándar, propiedad de todos y de nadie, para que las organizaciones benéficas y los desarrolladores puedan colaborar sin pasarelas propietarias extractivas.
 
 Si es útil, adóptalo. Si algo está mal, arréglalo. Si algo falta, añádelo.
 

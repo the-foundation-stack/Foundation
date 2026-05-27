@@ -1,7 +1,7 @@
 # Open Charity API Standard (OCAS)
 
 > An open, vendor-neutral specification for charity donation APIs.
-> Built so any charity — small mosque, global NGO, food bank, hospice — can be integrated with by any developer, in any app, anywhere in the world.
+> Built so any charity, small mosque, global NGO, food bank, hospice, can be integrated with by any developer, in any app, anywhere in the world.
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Spec: OpenAPI 3.1](https://img.shields.io/badge/Spec-OpenAPI_3.1-green.svg)](spec/openapi.yaml)
@@ -28,7 +28,7 @@ This project is intentionally:
 
 - **Vendor-neutral.** Not tied to Stripe, PayPal, or any single payment processor.
 - **Faith- and ideology-neutral on the surface.** Works equally well for a secular food bank and a mosque.
-- **Religiously-aware where it matters.** First-class support for Zakat, Sadaqah, Waqf, Lillah, Fidya, Kaffarah, Qurbani, Aqiqah — alongside Gift Aid, 501(c)(3), DGR, ANBI and other tax-relief schemes.
+- **Religiously-aware where it matters.** First-class support for Zakat, Sadaqah, Waqf, Lillah, Fidya, Kaffarah, Qurbani, Aqiqah, alongside Gift Aid, 501(c)(3), DGR, ANBI and other tax-relief schemes.
 - **Self-hostable.** A charity can implement OCAS on its own server. No central authority. No mandatory hub.
 
 ## Who this is for
@@ -41,11 +41,11 @@ This project is intentionally:
 | A **researcher or academic** | A clean data shape you can build theory and tooling on top of (Zakat distribution models, fairness in giving, fraud detection, impact tracking). |
 | A **regulator** | A reference for what good interop looks like, including standardised audit fields. |
 
-## The bigger picture — The Foundation
+## The bigger picture, The Foundation
 
-OCAS is the first project published under **[The Foundation](../README.md)** — a home for **open standards, protocols and shared infrastructure for socially-beneficial software**, with a particular focus on enabling Muslim developers, academics, and communities to collaborate openly. The work itself is for everyone; the lens is one of public benefit, ethical computing, and refusing to let critical community infrastructure stay locked behind proprietary gateways.
+OCAS is the first project published under **[The Foundation](../README.md)**, a home for **open standards, protocols and shared infrastructure for socially-beneficial software**, with a particular focus on enabling Muslim developers, academics, and communities to collaborate openly. The work itself is for everyone; the lens is one of public benefit, ethical computing, and refusing to let critical community infrastructure stay locked behind proprietary gateways.
 
-The name is deliberate. *Foundation* in the sense of `waqf` — a permanent, public endowment of work that nobody owns and everybody can build on. *Foundation* in the sense of the base layer of a stack: standards, protocols, primitives that other people's products sit on top of.
+The name is deliberate. *Foundation* in the sense of `waqf`, a permanent, public endowment of work that nobody owns and everybody can build on. *Foundation* in the sense of the base layer of a stack: standards, protocols, primitives that other people's products sit on top of.
 
 The ambition is that universities, researchers and professors with theories about social finance, ethical computing, halal payment rails, equitable distribution, and similar topics can publish reference implementations under The Foundation that any developer can build on, with proper attribution. Pull requests, RFCs, and research papers are all welcome.
 
@@ -121,7 +121,7 @@ Authorization: Bearer {token}      # if the charity requires auth; otherwise omi
 }
 ```
 
-The charity returns a `donation_id` and a `payment_intent` you can complete with the charity's chosen payment processor — or, if the charity issues a `redirect_url`, you simply send the donor there.
+The charity returns a `donation_id` and a `payment_intent` you can complete with the charity's chosen payment processor, or, if the charity issues a `redirect_url`, you simply send the donor there.
 
 That's it. Full reference in [`spec/openapi.yaml`](spec/openapi.yaml).
 
@@ -129,15 +129,15 @@ That's it. Full reference in [`spec/openapi.yaml`](spec/openapi.yaml).
 
 Charities can run OCAS in one of three modes, declared in `GET /charity`:
 
-- `public` — no auth required for `POST /donations`. Anyone can donate. (Read-only listing endpoints are still public.) Best for small charities who want to be maximally embeddable.
-- `api_key` — a static API key in the `Authorization: Bearer` header. Best for trusted partner apps.
-- `oauth2` — full OAuth 2.0 with PKCE. Used when individual donors need accounts and donation history. Charities can expose their own authorisation server, or delegate to a third party.
+- `public`, no auth required for `POST /donations`. Anyone can donate. (Read-only listing endpoints are still public.) Best for small charities who want to be maximally embeddable.
+- `api_key`, a static API key in the `Authorization: Bearer` header. Best for trusted partner apps.
+- `oauth2`, full OAuth 2.0 with PKCE. Used when individual donors need accounts and donation history. Charities can expose their own authorisation server, or delegate to a third party.
 
 Apps integrating with multiple charities just read the mode from `GET /charity` and adapt. Details in [`docs/authentication.md`](docs/authentication.md).
 
 ## Tax relief (Gift Aid and friends)
 
-The spec models tax-relief declarations generically. A UK Gift Aid declaration is just one instance of a `tax_relief_declaration` object; a US 501(c)(3) tax receipt is another; Australia's DGR, Canada's CRA receipts, Germany's Spendenbescheinigung, Ireland's CHY3/CHY4, Netherlands' ANBI — all supported through the same shape with country-specific fields. See [`docs/gift-aid-and-tax.md`](docs/gift-aid-and-tax.md).
+The spec models tax-relief declarations generically. A UK Gift Aid declaration is just one instance of a `tax_relief_declaration` object; a US 501(c)(3) tax receipt is another; Australia's DGR, Canada's CRA receipts, Germany's Spendenbescheinigung, Ireland's CHY3/CHY4, Netherlands' ANBI, all supported through the same shape with country-specific fields. See [`docs/gift-aid-and-tax.md`](docs/gift-aid-and-tax.md).
 
 ## Islamic giving categories
 
@@ -151,19 +151,19 @@ Three ways:
 
 1. **Open an issue.** Spotted a missing field, an unsupported jurisdiction, an ambiguity? Tell us.
 2. **Open a pull request.** Especially welcome: new language translations, country-specific tax-relief profiles, reference server implementations in your stack of choice.
-3. **Adopt the spec.** The single most valuable thing a charity can do is implement it. Tell us when you do — we'll list you in `ADOPTERS.md`.
+3. **Adopt the spec.** The single most valuable thing a charity can do is implement it. Tell us when you do, we'll list you in `ADOPTERS.md`.
 
 See [`docs/contributing.md`](docs/contributing.md) for the full process, including the RFC procedure for breaking changes.
 
 ## Governance and license
 
-OCAS is licensed under the **Apache License 2.0**. The spec, schemas, and reference materials are free to use commercially, fork, modify, and embed. No royalties, no attribution gymnastics — just keep the licence header and don't sue us.
+OCAS is licensed under the **Apache License 2.0**. The spec, schemas, and reference materials are free to use commercially, fork, modify, and embed. No royalties, no attribution gymnastics, just keep the licence header and don't sue us.
 
 Long-term governance is intended to be a lightweight steering group of charity practitioners, developers, and at least one academic; until that exists, decisions are made by maintainers via the RFC process in `docs/contributing.md`.
 
 ## A note on intent
 
-This project is being built in the belief that good infrastructure is itself an act of charity — sadaqah jariyah, if you like — and that the technical community has a duty to make it easier, not harder, for money to reach people who need it. If even one extra pound, dollar, ringgit or rupee reaches a hungry person because two systems could talk to each other, the work was worth it.
+This project is being built in the belief that good infrastructure is itself an act of charity, sadaqah jariyah, if you like, and that the technical community has a duty to make it easier, not harder, for money to reach people who need it. If even one extra pound, dollar, ringgit or rupee reaches a hungry person because two systems could talk to each other, the work was worth it.
 
 Contributions, critique, and corrections all welcome.
 
@@ -171,4 +171,4 @@ Contributions, critique, and corrections all welcome.
 
 **Maintainers:** see [`MAINTAINERS.md`](MAINTAINERS.md) *(to be created when first non-author maintainer joins)*
 **Security disclosure:** see [`SECURITY.md`](SECURITY.md) *(coming soon)*
-**Code of conduct:** see [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) *(coming soon — Contributor Covenant)*
+**Code of conduct:** see [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) *(coming soon, Contributor Covenant)*

@@ -52,7 +52,7 @@ We deliberately keep this lightweight. We're not the IETF. But we don't want to 
 | **Translations** | The README in your language reaches developers in your part of the world. |
 | **Reference implementations** | A working OCAS server (or client) in a popular stack, ideally MIT/Apache-2.0 licensed and dropped in `examples/`. |
 | **Academic input** | Theory papers, distribution models, fraud-detection methods that map to OCAS data. Add to `docs/research/` with a citation and an explainer for developers. |
-| **Critique** | "This field is wrong because in our jurisdiction..." — that's the most valuable kind of feedback. |
+| **Critique** | "This field is wrong because in our jurisdiction...", that's the most valuable kind of feedback. |
 
 ## Style guide
 
@@ -67,7 +67,7 @@ We deliberately keep this lightweight. We're not the IETF. But we don't want to 
 - All amounts as `Money` objects with integer minor units. **Never** decimal floats for money.
 - Country codes ISO 3166-1 alpha-2. Language codes BCP 47. Currency codes ISO 4217.
 - Optional fields explicitly nullable: `type: [string, "null"]`.
-- New enum values added at the end (don't reorder existing ones — clients may have parsing assumptions).
+- New enum values added at the end (don't reorder existing ones, clients may have parsing assumptions).
 
 ### For commit messages
 - First line ≤72 chars, imperative mood ("Add Qurbani metadata schema", not "Added").
