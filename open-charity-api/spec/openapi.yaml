@@ -59,6 +59,7 @@ paths:
   ##########################################################################
   /charity:
     get:
+      operationId: getCharity
       tags: [Charity]
       summary: Get charity information and capability profile.
       description: |
@@ -78,6 +79,8 @@ paths:
   ##########################################################################
   /campaigns:
     get:
+      operationId: listCampaigns
+      description: List campaigns.
       tags: [Campaigns]
       summary: List campaigns.
       security: []
@@ -104,6 +107,8 @@ paths:
 
   /campaigns/{id}:
     get:
+      operationId: getCampaign
+      description: Get a single campaign by ID or slug.
       tags: [Campaigns]
       summary: Get a single campaign by ID or slug.
       security: []
@@ -122,6 +127,8 @@ paths:
   ##########################################################################
   /funds:
     get:
+      operationId: listFunds
+      description: List long-running designated funds.
       tags: [Funds]
       summary: List long-running designated funds.
       security: []
@@ -144,6 +151,8 @@ paths:
 
   /funds/{id}:
     get:
+      operationId: getFund
+      description: Get a single fund.
       tags: [Funds]
       summary: Get a single fund.
       security: []
@@ -165,6 +174,7 @@ paths:
   ##########################################################################
   /donations:
     post:
+      operationId: createDonation
       tags: [Donations]
       summary: Create a donation.
       description: |
@@ -195,11 +205,12 @@ paths:
         '422': { $ref: '#/components/responses/Unprocessable' }
         '429': { $ref: '#/components/responses/RateLimited' }
     get:
+      operationId: listDonations
       tags: [Donations]
       summary: List donations.
       description: Requires `donations:read` scope. Not available in `public` mode.
       security:
-        - apiKey: [donations:read]
+        - apiKey: []
         - oauth2: [donations:read]
       parameters:
         - { $ref: '#/components/parameters/Limit' }
@@ -236,6 +247,8 @@ paths:
 
   /donations/{id}:
     get:
+      operationId: getDonation
+      description: Get a single donation.
       tags: [Donations]
       summary: Get a single donation.
       parameters:
@@ -253,13 +266,14 @@ paths:
 
   /donations/{id}/refund:
     post:
+      operationId: refundDonation
       tags: [Donations]
       summary: Refund a donation.
       description: |
         Whether refunds are allowed, and the refund window, are controlled by the charity.
         Returns 422 if the donation is not refundable.
       security:
-        - apiKey: [donations:write]
+        - apiKey: []
         - oauth2: [donations:write]
       parameters:
         - in: path
@@ -292,6 +306,8 @@ paths:
   ##########################################################################
   /subscriptions:
     post:
+      operationId: createSubscription
+      description: Create a recurring donation subscription.
       tags: [Subscriptions]
       summary: Create a recurring donation subscription.
       requestBody:
@@ -308,10 +324,12 @@ paths:
         '400': { $ref: '#/components/responses/BadRequest' }
         '401': { $ref: '#/components/responses/Unauthorized' }
     get:
+      operationId: listSubscriptions
+      description: List subscriptions.
       tags: [Subscriptions]
       summary: List subscriptions.
       security:
-        - apiKey: [subscriptions:read]
+        - apiKey: []
         - oauth2: [subscriptions:read, donor:self]
       parameters:
         - { $ref: '#/components/parameters/Limit' }
@@ -335,6 +353,8 @@ paths:
 
   /subscriptions/{id}:
     get:
+      operationId: getSubscription
+      description: Get subscription.
       tags: [Subscriptions]
       summary: Get subscription.
       parameters:
@@ -350,10 +370,12 @@ paths:
               schema: { $ref: '#/components/schemas/Subscription' }
         '404': { $ref: '#/components/responses/NotFound' }
     patch:
+      operationId: updateSubscription
+      description: Update subscription (pause, resume, change amount/frequency/designation).
       tags: [Subscriptions]
       summary: Update subscription (pause, resume, change amount/frequency/designation).
       security:
-        - apiKey: [subscriptions:write]
+        - apiKey: []
         - oauth2: [subscriptions:write, donor:self]
       parameters:
         - in: path
@@ -372,10 +394,12 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/Subscription' }
     delete:
+      operationId: cancelSubscription
+      description: Cancel subscription.
       tags: [Subscriptions]
       summary: Cancel subscription.
       security:
-        - apiKey: [subscriptions:write]
+        - apiKey: []
         - oauth2: [subscriptions:write, donor:self]
       parameters:
         - in: path
@@ -391,6 +415,8 @@ paths:
   ##########################################################################
   /donors/me:
     get:
+      operationId: getMe
+      description: Get the authenticated donor.
       tags: [Donors]
       summary: Get the authenticated donor.
       security:
@@ -403,6 +429,8 @@ paths:
               schema: { $ref: '#/components/schemas/Donor' }
         '401': { $ref: '#/components/responses/Unauthorized' }
     patch:
+      operationId: updateMe
+      description: Update the authenticated donor.
       tags: [Donors]
       summary: Update the authenticated donor.
       security:
@@ -421,6 +449,8 @@ paths:
 
   /donors/me/donations:
     get:
+      operationId: listMyDonations
+      description: List the authenticated donor's donation history.
       tags: [Donors]
       summary: List the authenticated donor's donation history.
       security:
@@ -447,6 +477,8 @@ paths:
   ##########################################################################
   /receipts/{id}:
     get:
+      operationId: getReceipt
+      description: Get receipt.
       tags: [Receipts]
       summary: Get receipt.
       parameters:
@@ -474,6 +506,7 @@ paths:
   ##########################################################################
   /zakat/calculator:
     get:
+      operationId: getZakatNisab
       tags: [Zakat]
       summary: Get current Nisab values for a given currency.
       description: |
@@ -498,10 +531,12 @@ paths:
   ##########################################################################
   /webhooks:
     post:
+      operationId: createWebhook
+      description: Register a webhook endpoint.
       tags: [Webhooks]
       summary: Register a webhook endpoint.
       security:
-        - apiKey: [webhooks:manage]
+        - apiKey: []
       requestBody:
         required: true
         content:
@@ -514,10 +549,12 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/Webhook' }
     get:
+      operationId: listWebhooks
+      description: List registered webhooks.
       tags: [Webhooks]
       summary: List registered webhooks.
       security:
-        - apiKey: [webhooks:manage]
+        - apiKey: []
       responses:
         '200':
           description: Webhooks.
@@ -533,10 +570,12 @@ paths:
 
   /webhooks/{id}:
     delete:
+      operationId: deleteWebhook
+      description: Delete a webhook.
       tags: [Webhooks]
       summary: Delete a webhook.
       security:
-        - apiKey: [webhooks:manage]
+        - apiKey: []
       parameters:
         - in: path
           name: id

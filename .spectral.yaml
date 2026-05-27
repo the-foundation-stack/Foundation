@@ -1,1 +1,7 @@
 extends: ["spectral:oas"]
+
+# The discriminator-based tax-relief schemes are referenced via mapping,
+# which Spectral's "unused component" rule doesn't always trace correctly.
+# Suppress that one rule to avoid false positives.
+rules:
+  oas3-unused-component: off
