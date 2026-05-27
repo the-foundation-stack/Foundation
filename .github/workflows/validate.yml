@@ -1,0 +1,82 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-openapi:
+    name: Validate OpenAPI spec
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install openapi-spec-validator
+        run: pip install openapi-spec-validator
+
+      - name: Validate OCAS spec
+        run: openapi-spec-validator open-charity-api/spec/openapi.yaml
+
+  lint-openapi:
+    name: Lint OpenAPI spec (Spectral)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Spectral lint
+        uses: stoplightio/spectral-action@latest
+        with:
+          file_glob: open-charity-api/spec/openapi.yaml
+        continue-on-error: true
+        # continue-on-error: lint warnings are advisory until we publish a custom ruleset.
+        # Hard failures (structural errors) are caught by validate-openapi above.
+
+  validate-json-examples:
+    name: Validate JSON examples
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse every example JSON file
+        run: |
+          set -e
+          fail=0
+          for f in open-charity-api/examples/*.json; do
+            echo "Validating $f"
+            python3 -c "import json; json.load(open('$f'))" || fail=1
+          done
+          if [ $fail -ne 0 ]; then
+            echo "::error::One or more example JSON files failed to parse"
+            exit 1
+          fi
+
+  validate-postman:
+    name: Validate Postman collection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse Postman collection
+        run: python3 -c "import json; json.load(open('open-charity-api/postman/OCAS.postman_collection.json'))"
+
+  lint-markdown:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            **/*.md
+            !**/node_modules/**
+        continue-on-error: true
+        # Advisory only — markdown issues shouldn't block a PR.

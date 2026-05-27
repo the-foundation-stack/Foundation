@@ -1,0 +1,55 @@
+name: 🐛 Bug or error in a spec
+description: Something in a published specification is wrong, broken, or contradictory.
+title: "[Bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: dropdown
+    id: project
+    attributes:
+      label: Which project?
+      options:
+        - OCAS (Open Charity API Standard)
+        - Other (please describe in the body)
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Which version of the spec is affected? (e.g. ocas-v0.1.0)
+      placeholder: ocas-v0.1.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-broke
+    attributes:
+      label: What is wrong?
+      description: Describe the issue. If a schema is malformed, name the schema. If documented behaviour contradicts the spec, quote both.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: false
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce it?
+      description: Steps, code snippets, or curl commands if applicable.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: search
+    attributes:
+      label: Pre-flight check
+      options:
+        - label: I've searched existing issues and Discussions and this isn't already reported.
+          required: true

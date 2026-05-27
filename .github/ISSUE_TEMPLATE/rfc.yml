@@ -1,0 +1,81 @@
+name: 📜 RFC — Substantive proposal
+description: Propose a substantive change to a spec, protocol, or design decision.
+title: "[RFC] "
+labels: ["rfc", "needs-discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        RFCs are for substantive design proposals — new endpoints, new schemas, breaking changes, new sub-projects, or significant rethinks of existing design.
+
+        For smaller suggestions (one extra field, a bug, a clarification), please use the bug or enhancement templates instead.
+
+        Most successful RFCs start as a Discussion thread before becoming a formal issue. If you haven't done that yet, consider [opening a Discussion](https://github.com/the-foundation-stack/Foundation/discussions/new?category=rfcs) first.
+
+  - type: dropdown
+    id: project
+    attributes:
+      label: Which project does this affect?
+      options:
+        - OCAS (Open Charity API Standard)
+        - Cross-project / The Foundation as a whole
+        - New project proposal
+        - Other (please describe)
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One paragraph. What are you proposing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why does this need to exist? What problem does it solve? What goes wrong if we don't do this?
+    validations:
+      required: true
+
+  - type: textarea
+    id: design
+    attributes:
+      label: Proposed design
+      description: Concrete details. Schemas, endpoint shapes, examples. The more concrete, the easier to evaluate.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other designs did you weigh? Why is the proposed approach better?
+    validations:
+      required: true
+
+  - type: textarea
+    id: backwards-compat
+    attributes:
+      label: Backwards compatibility
+      description: Is this a breaking change? Who would be affected? Is there a migration path?
+    validations:
+      required: true
+
+  - type: textarea
+    id: prior-art
+    attributes:
+      label: Prior art / references
+      description: Academic papers, other specs, existing implementations that informed the proposal.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Implementation
+      options:
+        - label: I'm willing to implement this if accepted.
+          required: false

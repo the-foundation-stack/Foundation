@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+title: "The Foundation: Open standards for socially-beneficial software"
+message: "If you use any specification published by The Foundation in academic work, please cite it as below. For project-specific citations, use the version tag prefix corresponding to that project (e.g. ocas-v0.1.0)."
+type: software
+authors:
+  - name: "The Foundation"
+    website: "https://github.com/the-foundation-stack"
+repository-code: "https://github.com/the-foundation-stack/Foundation"
+abstract: >-
+  The Foundation publishes open standards, protocols, reference
+  implementations, and research for socially-beneficial software.
+  Its first project, the Open Charity API Standard (OCAS), is a
+  vendor-neutral OpenAPI 3.1 specification for charity donation APIs,
+  with first-class support for international tax-relief schemes and
+  faith-based giving categories including Zakat (with the 8 canonical
+  Asnaf categories), Sadaqah, Waqf, Qurbani, Aqiqah, Fidya, Kaffarah,
+  and interest purification.
+license: Apache-2.0
+keywords:
+  - open standard
+  - open source
+  - openapi
+  - charity
+  - philanthropy
+  - donations
+  - zakat
+  - islamic finance
+  - tax relief
+  - nonprofit
+  - api specification
+version: "0.1.0"
+date-released: "2026-05-27"

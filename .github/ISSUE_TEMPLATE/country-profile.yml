@@ -1,0 +1,69 @@
+name: 🌍 Proposed country profile / tax-relief scheme
+description: Add a new country's tax-relief or charitable-giving scheme to OCAS.
+title: "[Country profile] "
+labels: ["country-profile", "ocas", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a country profile. These are some of the most valuable contributions OCAS can receive — every new scheme makes the spec usable for more charities in more jurisdictions.
+
+  - type: input
+    id: country
+    attributes:
+      label: Country / jurisdiction
+      placeholder: "e.g. New Zealand, Japan, South Africa"
+    validations:
+      required: true
+
+  - type: input
+    id: scheme
+    attributes:
+      label: Name of the scheme
+      description: The official name of the tax-relief / charitable-giving programme.
+      placeholder: "e.g. Donation Tax Credit"
+    validations:
+      required: true
+
+  - type: textarea
+    id: how-it-works
+    attributes:
+      label: How does the scheme work?
+      description: Brief description — who claims, what fields are required, what the charity has to declare or hold on file.
+    validations:
+      required: true
+
+  - type: textarea
+    id: required-fields
+    attributes:
+      label: What data does the scheme require?
+      description: List the specific fields needed (donor name, address, tax ID, declaration text, signature, etc.).
+    validations:
+      required: true
+
+  - type: textarea
+    id: regulatory-references
+    attributes:
+      label: Official regulatory references
+      description: Links to government / tax authority documentation.
+    validations:
+      required: false
+
+  - type: input
+    id: discriminator
+    attributes:
+      label: Suggested discriminator value
+      description: The proposed value for the `scheme` field in `tax_relief_declarations[]`. Convention is `<iso-country-code-lowercase>_<short_name>`, e.g. `nz_donation_tax_credit`.
+      placeholder: "nz_donation_tax_credit"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Would you like to contribute the implementation?
+      options:
+        - label: I'm happy to open a PR adding this scheme to the spec.
+          required: false
+        - label: I'd prefer someone else implement it from this spec.
+          required: false

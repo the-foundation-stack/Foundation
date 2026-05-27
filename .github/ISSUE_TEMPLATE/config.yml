@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Question or general discussion
+    url: https://github.com/the-foundation-stack/Foundation/discussions
+    about: For questions, design discussion, adoption stories, or anything that isn't a concrete bug or proposal, please use Discussions instead.
+  - name: 🔐 Security vulnerability
+    url: https://github.com/the-foundation-stack/Foundation/security/advisories/new
+    about: Don't open a public issue for security vulnerabilities. Use a private security advisory.
