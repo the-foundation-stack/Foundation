@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Foundation — Open standards for socially-beneficial software</title>
+  <meta name="description" content="The Foundation publishes open standards, protocols and shared infrastructure for socially-beneficial software. Home of OCAS, the Open Charity API Standard.">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-elev: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79b8ff;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #ffffff;
+        --bg-elev: #f6f8fa;
+        --border: #d0d7de;
+        --text: #1f2328;
+        --text-muted: #656d76;
+        --accent: #0969da;
+        --accent-hover: #0550ae;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 0 0 0.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .tagline {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin: 0 0 3rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+      margin: 3rem 0 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    p { margin: 0 0 1rem; }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
+    .project-card {
+      display: block;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      text-decoration: none;
+    }
+    .project-card h3 {
+      margin: 0 0 0.5rem;
+      color: var(--accent);
+      font-size: 1.15rem;
+    }
+    .project-card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text-muted);
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+    .meta {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .meta a { color: var(--text-muted); text-decoration: underline; }
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--bg-elev);
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>The Foundation</h1>
+    <p class="tagline">Open standards, protocols and shared infrastructure for socially-beneficial software.</p>
+
+    <p>
+      We publish specifications, protocols, reference implementations and research that the world's charities, community organisations, and builders can adopt freely.
+      Everything is permissively licensed (Apache 2.0), vendor-neutral, and self-hostable. No central authorities, no mandatory hubs.
+    </p>
+
+    <p>
+      The name has two readings, both intended: <em>Foundation</em> as in <code>waqf</code> — a permanent, public endowment of work — and <em>Foundation</em> as the base layer of a stack, the primitives that other people's products sit on top of.
+    </p>
+
+    <h2>Projects</h2>
+
+    <a class="project-card" href="./open-charity-api/">
+      <h3>OCAS — Open Charity API Standard <span class="badge">draft v0.1</span></h3>
+      <p>
+        A vendor-neutral OpenAPI 3.1 specification any charity can adopt to expose donations, subscriptions, campaigns, receipts and tax-relief declarations in a standard shape. First-class support for Gift Aid, US 501(c)(3), Australian DGR and seven more international schemes — alongside Zakat (with 8 Asnaf categories), Sadaqah, Waqf, Qurbani, Aqiqah, Fidya, Kaffarah, and interest purification.
+      </p>
+    </a>
+
+    <h2>Get involved</h2>
+    <p>
+      Browse the work and join the conversation on <a href="https://github.com/the-foundation-stack/Foundation">GitHub</a>.
+      Adoption stories, country profiles, translations, RFCs and critique are all welcome.
+    </p>
+
+    <div class="meta">
+      <p>
+        Source: <a href="https://github.com/the-foundation-stack/Foundation">github.com/the-foundation-stack/Foundation</a> · Apache 2.0
+      </p>
+    </div>
+  </main>
+</body>
+</html>
