@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Foundation · Brand Guidelines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bedrock:#1A1A17;
+    --bedrock-soft:#2A2A24;
+    --clay:#C75B39;
+    --clay-deep:#A4452A;
+    --lapis:#1F4A57;
+    --lapis-soft:#2E5E6E;
+    --ochre:#D9A441;
+    --sand:#F4EFE6;
+    --sand-deep:#EAE2D3;
+    --stone:#8A8170;
+    --paper:#FBF9F4;
+
+    --serif:'Fraunces', Georgia, serif;
+    --sans:'Hanken Grotesk', -apple-system, sans-serif;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans);
+    background:var(--sand);
+    color:var(--bedrock);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    font-size:17px;
+  }
+  ::selection{background:var(--clay);color:var(--paper);}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px;}
+
+  /* ---- type scale ---- */
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.08;letter-spacing:-.01em;}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);font-weight:500;}
+  .lead{font-size:1.35rem;line-height:1.5;color:var(--bedrock-soft);max-width:62ch;}
+  p{max-width:66ch;}
+  a{color:var(--clay-deep);}
+
+  /* ---- section frame ---- */
+  section{padding:90px 0;border-top:1px solid var(--sand-deep);}
+  .sec-head{display:flex;gap:24px;align-items:baseline;margin-bottom:48px;flex-wrap:wrap;}
+  .sec-num{font-family:var(--mono);font-size:.8rem;color:var(--stone);letter-spacing:.1em;padding-top:6px;}
+  .sec-head h2{font-size:clamp(2rem,4vw,3rem);}
+
+  /* ============ HERO ============ */
+  .hero{
+    background:var(--bedrock);
+    color:var(--sand);
+    padding:0;
+    border:none;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    position:absolute;inset:0;
+    background-image:linear-gradient(var(--bedrock-soft) 1px,transparent 1px),linear-gradient(90deg,var(--bedrock-soft) 1px,transparent 1px);
+    background-size:64px 64px;
+    opacity:.4;
+    mask-image:radial-gradient(circle at 75% 30%,#000,transparent 75%);
+  }
+  .hero-inner{position:relative;z-index:2;padding:120px 0 110px;}
+  .hero .mark{margin-bottom:46px;}
+  .hero h1{font-size:clamp(3.2rem,9vw,7rem);font-weight:600;letter-spacing:-.03em;color:var(--sand);}
+  .hero h1 .thin{display:block;font-size:.34em;letter-spacing:.42em;text-transform:uppercase;color:var(--clay);font-weight:500;margin-bottom:.4em;font-family:var(--mono);}
+  .hero .lead{color:#C9C2B4;margin-top:34px;font-size:1.45rem;}
+  .hero-meta{margin-top:60px;display:flex;gap:48px;flex-wrap:wrap;font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;color:var(--stone);text-transform:uppercase;}
+  .hero-meta b{color:var(--sand);font-weight:500;}
+
+  /* ============ ESSENCE ============ */
+  .pillars{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--sand-deep);border:1px solid var(--sand-deep);}
+  .pillar{background:var(--sand);padding:34px 30px;}
+  .pillar h4{font-size:1.3rem;margin-bottom:8px;}
+  .pillar p{font-size:.96rem;color:var(--bedrock-soft);}
+  .pillar .ic{color:var(--clay);margin-bottom:18px;display:block;}
+
+  /* ============ LOGO ============ */
+  .logo-stage{
+    background:var(--paper);
+    border:1px solid var(--sand-deep);
+    border-radius:8px;
+    padding:70px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .logo-stage.dark{background:var(--bedrock);}
+  .lockup{display:flex;align-items:center;gap:26px;}
+  .lockup .wordmark{font-family:var(--serif);line-height:.92;}
+  .lockup .wordmark .t{font-family:var(--mono);font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--stone);font-weight:500;display:block;margin-bottom:7px;}
+  .lockup .wordmark .f{font-size:2.7rem;font-weight:600;letter-spacing:-.02em;color:var(--bedrock);display:block;}
+  .logo-stage.dark .wordmark .f{color:var(--sand);}
+  .logo-stage.dark .wordmark .t{color:var(--stone);}
+
+  .logo-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;}
+  .mini-stage{border:1px solid var(--sand-deep);border-radius:8px;padding:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:var(--paper);min-height:200px;}
+  .mini-stage.dark{background:var(--bedrock);}
+  .mini-stage .cap{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--stone);}
+
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;}
+  .rule-card{border:1px solid var(--sand-deep);border-radius:8px;padding:28px;background:var(--paper);}
+  .rule-card h4{font-size:1.05rem;margin-bottom:14px;font-family:var(--sans);font-weight:700;letter-spacing:0;}
+  .dos li,.donts li{list-style:none;font-size:.92rem;padding:7px 0 7px 30px;position:relative;color:var(--bedrock-soft);border-bottom:1px solid var(--sand-deep);}
+  .dos li:last-child,.donts li:last-child{border-bottom:none;}
+  .dos li::before{content:"✓";position:absolute;left:0;color:var(--lapis-soft);font-weight:700;}
+  .donts li::before{content:"✕";position:absolute;left:0;color:var(--clay);font-weight:700;}
+
+  /* clearspace diagram */
+  .clearspace{position:relative;display:inline-block;padding:48px;}
+  .clearspace .frame{position:absolute;inset:0;border:1px dashed var(--clay);border-radius:6px;}
+  .clearspace .lbl{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--paper);padding:0 8px;font-family:var(--mono);font-size:.62rem;color:var(--clay);letter-spacing:.05em;}
+
+  /* ============ COLOUR ============ */
+  .swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+  .swatch{padding:24px 20px;min-height:170px;display:flex;flex-direction:column;justify-content:flex-end;border-radius:6px;}
+  .swatch .name{font-weight:700;font-size:1rem;}
+  .swatch .hex{font-family:var(--mono);font-size:.78rem;opacity:.85;margin-top:3px;}
+  .swatch .use{font-size:.78rem;opacity:.8;margin-top:10px;line-height:1.4;}
+  .swatch.light .name,.swatch.light .hex,.swatch.light .use{color:var(--bedrock);}
+  .swatch.dark .name,.swatch.dark .hex,.swatch.dark .use{color:var(--sand);}
+  .swatch.bordered{border:1px solid var(--sand-deep);}
+  .ratio-note{margin-top:20px;font-family:var(--mono);font-size:.78rem;color:var(--stone);}
+  .ratio-bar{display:flex;height:44px;margin-top:14px;border-radius:6px;overflow:hidden;}
+  .ratio-bar span{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.68rem;color:var(--sand);}
+
+  /* ============ TYPE ============ */
+  .type-row{padding:30px 0;border-bottom:1px solid var(--sand-deep);display:grid;grid-template-columns:140px 1fr;gap:30px;align-items:start;}
+  .type-row:last-child{border-bottom:none;}
+  .type-meta{font-family:var(--mono);font-size:.72rem;line-height:1.7;color:var(--stone);text-transform:uppercase;letter-spacing:.06em;}
+  .type-meta b{color:var(--bedrock);display:block;font-size:.95rem;text-transform:none;letter-spacing:0;margin-bottom:4px;}
+  .spec-serif{font-family:var(--serif);font-size:3.2rem;font-weight:600;line-height:1;letter-spacing:-.02em;}
+  .spec-sans{font-family:var(--sans);font-size:1.6rem;font-weight:500;}
+  .spec-mono{font-family:var(--mono);font-size:1.1rem;color:var(--lapis);background:var(--paper);border:1px solid var(--sand-deep);border-radius:6px;padding:14px 18px;display:inline-block;}
+  .glyphs{font-family:var(--serif);font-size:1rem;color:var(--stone);margin-top:10px;letter-spacing:.04em;}
+
+  /* ============ ICONS ============ */
+  .icon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--sand-deep);border:1px solid var(--sand-deep);border-radius:8px;overflow:hidden;}
+  .icon-cell{background:var(--paper);padding:30px 18px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;}
+  .icon-cell svg{color:var(--bedrock);}
+  .icon-cell .nm{font-family:var(--mono);font-size:.68rem;letter-spacing:.05em;color:var(--stone);text-transform:uppercase;}
+
+  /* ============ VOICE ============ */
+  .voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  .voice-card{border:1px solid var(--sand-deep);border-radius:8px;padding:30px;background:var(--paper);}
+  .voice-card h4{font-family:var(--sans);font-weight:700;font-size:1.1rem;letter-spacing:0;margin-bottom:6px;}
+  .voice-card .scale{font-family:var(--mono);font-size:.68rem;color:var(--clay);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+  .voice-card p{font-size:.94rem;color:var(--bedrock-soft);}
+  .quote{font-family:var(--serif);font-size:1.7rem;font-style:italic;line-height:1.4;color:var(--bedrock);max-width:60ch;margin:10px 0 0;font-weight:400;}
+  .quote .by{display:block;font-family:var(--mono);font-style:normal;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);margin-top:18px;}
+  .saynot{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:40px;background:var(--sand-deep);border:1px solid var(--sand-deep);border-radius:8px;overflow:hidden;}
+  .saynot > div{background:var(--paper);padding:22px 24px;}
+  .saynot .h{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+  .saynot .say .h{color:var(--lapis-soft);}
+  .saynot .not .h{color:var(--clay);}
+  .saynot .ln{font-size:.92rem;padding:9px 0;border-bottom:1px solid var(--sand-deep);color:var(--bedrock-soft);}
+  .saynot .ln:last-child{border-bottom:none;}
+
+  /* ============ APPLICATION ============ */
+  .app-card{border:1px solid var(--sand-deep);border-radius:10px;overflow:hidden;background:var(--paper);}
+  .ghcard{background:var(--bedrock);padding:54px;display:flex;align-items:center;gap:30px;}
+  .ghcard .txt h3{color:var(--sand);font-size:2rem;}
+  .ghcard .txt p{color:#A7A091;font-family:var(--mono);font-size:.82rem;margin-top:8px;letter-spacing:.04em;}
+  .favset{display:flex;gap:28px;align-items:flex-end;padding:40px;flex-wrap:wrap;}
+  .favchip{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .favchip .box{background:var(--bedrock);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+  .favchip .nm{font-family:var(--mono);font-size:.66rem;color:var(--stone);}
+
+  /* ============ FOOTER ============ */
+  footer{background:var(--bedrock);color:var(--stone);padding:70px 0;border:none;font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  footer b{color:var(--sand);font-weight:500;}
+
+  @media(max-width:760px){
+    .wrap{padding:0 22px;}
+    .pillars,.swatches,.icon-grid{grid-template-columns:1fr 1fr;}
+    .logo-grid,.rules,.voice-grid,.saynot,.type-row{grid-template-columns:1fr;}
+    .ghcard{flex-direction:column;text-align:center;padding:40px 24px;}
+    .type-row{gap:10px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- =================== HERO =================== -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="wrap hero-inner">
+    <div class="mark">
+      <svg width="92" height="92" viewBox="0 0 120 120" aria-label="The Foundation mark">
+        <rect x="20" y="77" width="80" height="16" rx="4" fill="#F4EFE6"/>
+        <rect x="32" y="52" width="56" height="16" rx="4" fill="#F4EFE6"/>
+        <rect x="44" y="27" width="32" height="16" rx="4" fill="#C75B39"/>
+      </svg>
+    </div>
+    <h1><span class="thin">Brand Guidelines</span>The Foundation</h1>
+    <p class="lead">Open standards for charitable giving, built once, adopted everywhere. From Gift Aid to Zakat, treated as equals.</p>
+    <div class="hero-meta">
+      <span>Version <b>1.0</b></span>
+      <span>Issued <b>May 2026</b></span>
+      <span>Steward <b>the-foundation-stack</b></span>
+      <span>Licence <b>CC BY 4.0</b></span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- =================== ESSENCE =================== -->
+<section id="essence">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>The essence</h2></div>
+    <p class="lead" style="margin-bottom:14px;">The Foundation builds the shared infrastructure charities stand on. We don't run campaigns or hold donations. We publish the standards that let every charity speak the same language: donations, receipts, subscriptions, and tax relief, in one open shape.</p>
+    <p style="margin-bottom:48px;color:var(--bedrock-soft)">Our first standard, <strong>OCAS</strong> (the Open Charity API Standard), gives first-class treatment to Gift Aid, 501(c)(3), CRA and DGR schemes alongside Zakat, Sadaqah, Waqf and interest purification. The brand has to carry that promise: <em>solid, neutral, and welcoming to everyone.</em></p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></span>
+        <h4>Solid</h4>
+        <p>We are infrastructure. Like a foundation, we're meant to be relied on and rarely thought about. Permanence over novelty.</p>
+      </div>
+      <div class="pillar">
+        <span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l-7 7 7 7"/><path d="M19 5l-7 7 7 7" opacity=".35"/></svg></span>
+        <h4>Neutral</h4>
+        <p>Vendor-neutral and faith-neutral by design. We favour no platform, no scheme, no tradition over another. The standard belongs to everyone.</p>
+      </div>
+      <div class="pillar">
+        <span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16M4 9h5M4 15h5"/></svg></span>
+        <h4>Open</h4>
+        <p>Specs in the open, decisions in the open, governance in the open. Anyone can read it, adopt it, fork it, or improve it.</p>
+      </div>
+      <div class="pillar">
+        <span class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span>
+        <h4>Universal</h4>
+        <p>Designed across borders and beliefs from day one. International schemes and religious giving aren't add-ons; they're in the core.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== LOGO =================== -->
+<section id="logo">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>The logo</h2></div>
+    <p class="lead" style="margin-bottom:14px;">The mark is a foundation in three courses: a broad base, a bearing course, and a clay keystone. Read it as a stable plinth, as a <em>stack</em> of standards, or as an upward lift. The keystone is always the warm accent: the single piece that holds the structure together.</p>
+
+    <div class="logo-stage" style="margin-top:40px;">
+      <div class="lockup">
+        <svg width="84" height="84" viewBox="0 0 120 120" aria-label="The Foundation mark">
+          <rect x="20" y="77" width="80" height="16" rx="4" fill="#1A1A17"/>
+          <rect x="32" y="52" width="56" height="16" rx="4" fill="#1A1A17"/>
+          <rect x="44" y="27" width="32" height="16" rx="4" fill="#C75B39"/>
+        </svg>
+        <span class="wordmark"><span class="t">Open standards for giving</span><span class="f">The&nbsp;Foundation</span></span>
+      </div>
+    </div>
+
+    <div class="logo-grid">
+      <div class="mini-stage dark">
+        <div class="lockup">
+          <svg width="60" height="60" viewBox="0 0 120 120"><rect x="20" y="77" width="80" height="16" rx="4" fill="#F4EFE6"/><rect x="32" y="52" width="56" height="16" rx="4" fill="#F4EFE6"/><rect x="44" y="27" width="32" height="16" rx="4" fill="#C75B39"/></svg>
+        </div>
+        <span class="cap">Reversed · on bedrock</span>
+      </div>
+      <div class="mini-stage">
+        <div class="clearspace">
+          <span class="lbl">clearspace = keystone height</span>
+          <svg width="64" height="64" viewBox="0 0 120 120"><rect x="20" y="77" width="80" height="16" rx="4" fill="#1A1A17"/><rect x="32" y="52" width="56" height="16" rx="4" fill="#1A1A17"/><rect x="44" y="27" width="32" height="16" rx="4" fill="#C75B39"/></svg>
+          <span class="frame"></span>
+        </div>
+        <span class="cap">Mark only · clearspace</span>
+      </div>
+    </div>
+
+    <div class="rules">
+      <div class="rule-card">
+        <h4>Do</h4>
+        <ul class="dos">
+          <li>Keep the keystone in Clay; base courses in Bedrock or reversed in Sand.</li>
+          <li>Give it clearspace of at least one keystone-height on all sides.</li>
+          <li>Use the mark alone as an avatar, favicon, or social-preview tile.</li>
+          <li>Set the wordmark in Fraunces, lowercase-cap as “The Foundation”.</li>
+        </ul>
+      </div>
+      <div class="rule-card">
+        <h4>Don't</h4>
+        <ul class="donts">
+          <li>Recolour the keystone or apply gradients to the courses.</li>
+          <li>Rotate, skew, stretch, or add a drop shadow to the mark.</li>
+          <li>Re-typeset the wordmark in another font or all-caps.</li>
+          <li>Place the mark on a busy photo without a solid containing tile.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== COLOUR =================== -->
+<section id="colour">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Colour</h2></div>
+    <p class="lead" style="margin-bottom:40px;">Earth and stone for the human work of giving; one deep blue for the trust of a technical standard. Warm dominates; the blue and ochre are accents, never the field.</p>
+
+    <div class="swatches">
+      <div class="swatch dark" style="background:#1A1A17;">
+        <span class="name">Bedrock</span><span class="hex">#1A1A17</span>
+        <span class="use">Primary ink, logo, dark surfaces, body text.</span>
+      </div>
+      <div class="swatch dark" style="background:#C75B39;">
+        <span class="name">Clay</span><span class="hex">#C75B39</span>
+        <span class="use">The keystone. Primary accent, links, highlights.</span>
+      </div>
+      <div class="swatch dark" style="background:#1F4A57;">
+        <span class="name">Lapis</span><span class="hex">#1F4A57</span>
+        <span class="use">Trust accent: code, “do” states, charts.</span>
+      </div>
+      <div class="swatch light" style="background:#D9A441;">
+        <span class="name">Ochre</span><span class="hex">#D9A441</span>
+        <span class="use">Sparing highlight: generosity, callouts.</span>
+      </div>
+      <div class="swatch light bordered" style="background:#F4EFE6;">
+        <span class="name">Sand</span><span class="hex">#F4EFE6</span>
+        <span class="use">Default background. Calm, warm paper.</span>
+      </div>
+      <div class="swatch light bordered" style="background:#FBF9F4;">
+        <span class="name">Paper</span><span class="hex">#FBF9F4</span>
+        <span class="use">Raised cards and surfaces on Sand.</span>
+      </div>
+      <div class="swatch dark" style="background:#8A8170;">
+        <span class="name">Stone</span><span class="hex">#8A8170</span>
+        <span class="use">Muted captions, metadata, dividers.</span>
+      </div>
+      <div class="swatch dark" style="background:#A4452A;">
+        <span class="name">Clay Deep</span><span class="hex">#A4452A</span>
+        <span class="use">Link hover, pressed states, depth.</span>
+      </div>
+    </div>
+
+    <p class="ratio-note">Suggested balance: warmth carries the brand, blue and ochre punctuate it.</p>
+    <div class="ratio-bar">
+      <span style="background:#F4EFE6;color:#1A1A17;flex:60">Sand 60%</span>
+      <span style="background:#1A1A17;flex:22">Bedrock 22%</span>
+      <span style="background:#C75B39;flex:10">Clay 10%</span>
+      <span style="background:#1F4A57;flex:5">Lapis 5</span>
+      <span style="background:#D9A441;color:#1A1A17;flex:3">3</span>
+    </div>
+  </div>
+</section>
+
+<!-- =================== TYPOGRAPHY =================== -->
+<section id="type">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Typography</h2></div>
+    <p class="lead" style="margin-bottom:30px;">Three voices: a warm authoritative serif for headlines, a clean humanist sans for everything you read, and a precise monospace for the thing we actually make: code and specs.</p>
+
+    <div class="type-row">
+      <div class="type-meta"><b>Fraunces</b>Display / Serif<br>600 · 700 · 900<br>Headlines, pull-quotes</div>
+      <div>
+        <div class="spec-serif">Built once,<br>adopted everywhere.</div>
+        <div class="glyphs">AaBbCc · Gift Aid · Zakat · 0123456789 · &amp;?!</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta"><b>Hanken Grotesk</b>Body / UI Sans<br>400 · 500 · 600 · 700<br>Body copy, labels, navigation</div>
+      <div>
+        <div class="spec-sans">The standard belongs to everyone: clear enough for a one-person charity, rigorous enough for an audit.</div>
+        <div class="glyphs" style="font-family:var(--sans);">AaBbCc · 0123456789 · The quick brown fox</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-meta"><b>IBM Plex Mono</b>Code / Spec<br>400 · 500 · 600<br>Endpoints, fields, tokens</div>
+      <div>
+        <div class="spec-mono">GET /v1/donations/{id}/gift-aid-declaration</div>
+        <div class="glyphs" style="font-family:var(--mono);font-size:.8rem;">scheme: "zakat" · asnaf_category · 200 OK</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== ICONOGRAPHY =================== -->
+<section id="icons">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Iconography</h2></div>
+    <p class="lead" style="margin-bottom:40px;">A single line system: 24px grid, 1.8px stroke, rounded joins, geometric and quiet. Icons explain; they never decorate. Draw in Bedrock; reserve Clay for the one icon you want noticed.</p>
+
+    <div class="icon-grid">
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-9.5A3.5 3.5 0 0 1 12 8a3.5 3.5 0 0 1 7 2.5C19 16.5 12 21 12 21z"/><path d="M9 12l2 2 3-4" opacity=".4"/></svg>
+        <span class="nm">Giving</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h7l4 4v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v4h4M9 13h6M9 17h4"/></svg>
+        <span class="nm">Spec</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>
+        <span class="nm">International</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5" opacity=".55"/></svg>
+        <span class="nm">Stack</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+        <span class="nm">Trust</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V8a7 7 0 0 1 14 0v12"/><path d="M3 20h18M12 12v4"/></svg>
+        <span class="nm">Open door</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3z"/><path d="M9 8h6M9 12h6"/></svg>
+        <span class="nm">Receipt</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 7L6 9v3M12 7l6 2v3M4 12h16M5 12l1 6M19 12l-1 6M9 20h6"/></svg>
+        <span class="nm">Neutrality</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 20c0-3 2.5-5 5-5s5 2 5 5M11 20c0-3 2.5-5 5-5s5 2 5 5"/></svg>
+        <span class="nm">Community</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg>
+        <span class="nm">Code</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>
+        <span class="nm">Subscription</span>
+      </div>
+      <div class="icon-cell">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C75B39" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="13" width="16" height="6" rx="1.5"/><rect x="7" y="8" width="10" height="5" rx="1.5"/><rect x="9.5" y="3.5" width="5" height="4.5" rx="1.5" fill="#C75B39" stroke="none"/></svg>
+        <span class="nm">Keystone</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== VOICE =================== -->
+<section id="voice">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Tone of voice</h2></div>
+
+    <blockquote class="quote">“We write the way a good standard reads: plainly, precisely, and without taking a side.”
+      <span class="by">The Foundation editorial principle</span>
+    </blockquote>
+
+    <div class="voice-grid" style="margin-top:48px;">
+      <div class="voice-card">
+        <div class="scale">Plain, not dumbed-down</div>
+        <h4>Clear before clever</h4>
+        <p>A volunteer running a one-person charity must understand us as easily as a platform engineer. Short sentences, concrete nouns, no acronym left unexpanded on first use.</p>
+      </div>
+      <div class="voice-card">
+        <div class="scale">Neutral, not cold</div>
+        <h4>Even-handed, always</h4>
+        <p>We describe Gift Aid and Zakat with the same care and the same word count. We never rank traditions, platforms, or causes. Respect is non-negotiable; warmth is welcome.</p>
+      </div>
+      <div class="voice-card">
+        <div class="scale">Precise, not rigid</div>
+        <h4>Say exactly what we mean</h4>
+        <p>Specs live or die on precision. We prefer “must”, “should”, and “may” in their RFC sense, and we'd rather be exact than impressive. Vagueness is a bug.</p>
+      </div>
+      <div class="voice-card">
+        <div class="scale">Humble, not timid</div>
+        <h4>Confident, open to being wrong</h4>
+        <p>A standard is an invitation, not a decree. We state our reasoning, welcome critique, and change our minds in public when the evidence is good.</p>
+      </div>
+    </div>
+
+    <div class="saynot">
+      <div class="say">
+        <div class="h">We say</div>
+        <div class="ln">“OCAS describes how a charity exposes donations and tax-relief declarations.”</div>
+        <div class="ln">“Zakat is modelled with all eight Asnaf categories as first-class fields.”</div>
+        <div class="ln">“This is a draft. Tell us where it's wrong.”</div>
+        <div class="ln">“Adopt the parts you need; the standard is modular.”</div>
+      </div>
+      <div class="not">
+        <div class="h">We don't say</div>
+        <div class="ln">“Our revolutionary, best-in-class platform disrupts the giving space.”</div>
+        <div class="ln">“We also support some religious donation types.”</div>
+        <div class="ln">“The specification is final and authoritative.”</div>
+        <div class="ln">“Enterprise-grade synergy for the modern philanthropy stack.”</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== APPLICATION =================== -->
+<section id="application">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">07</span><h2>In use</h2></div>
+    <p class="lead" style="margin-bottom:40px;">A few ready references: the GitHub social card, the avatar, and the favicon at size.</p>
+
+    <div class="app-card" style="margin-bottom:24px;">
+      <div class="ghcard">
+        <svg width="96" height="96" viewBox="0 0 120 120"><rect x="20" y="77" width="80" height="16" rx="4" fill="#F4EFE6"/><rect x="32" y="52" width="56" height="16" rx="4" fill="#F4EFE6"/><rect x="44" y="27" width="32" height="16" rx="4" fill="#C75B39"/></svg>
+        <div class="txt">
+          <h3>The Foundation</h3>
+          <p>github.com/the-foundation-stack · Open standards for giving</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-card">
+      <div class="favset">
+        <div class="favchip"><div class="box" style="width:96px;height:96px;"><svg width="68" viewBox="0 0 120 120"><rect x="20" y="77" width="80" height="16" rx="4" fill="#F4EFE6"/><rect x="32" y="52" width="56" height="16" rx="4" fill="#F4EFE6"/><rect x="44" y="27" width="32" height="16" rx="4" fill="#C75B39"/></svg></div><span class="nm">96px</span></div>
+        <div class="favchip"><div class="box" style="width:48px;height:48px;"><svg width="34" viewBox="0 0 120 120"><rect x="20" y="77" width="80" height="16" rx="4" fill="#F4EFE6"/><rect x="32" y="52" width="56" height="16" rx="4" fill="#F4EFE6"/><rect x="44" y="27" width="32" height="16" rx="4" fill="#C75B39"/></svg></div><span class="nm">48px</span></div>
+        <div class="favchip"><div class="box" style="width:32px;height:32px;"><svg width="23" viewBox="0 0 120 120"><rect x="20" y="77" width="80" height="16" rx="4" fill="#F4EFE6"/><rect x="32" y="52" width="56" height="16" rx="4" fill="#F4EFE6"/><rect x="44" y="27" width="32" height="16" rx="4" fill="#C75B39"/></svg></div><span class="nm">32px</span></div>
+        <div class="favchip"><div class="box" style="width:16px;height:16px;"><svg width="12" viewBox="0 0 120 120"><rect x="20" y="77" width="80" height="16" rx="4" fill="#F4EFE6"/><rect x="32" y="52" width="56" height="16" rx="4" fill="#F4EFE6"/><rect x="44" y="27" width="32" height="16" rx="4" fill="#C75B39"/></svg></div><span class="nm">16px</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>The Foundation</b> · Brand Guidelines v1.0</span>
+    <span>Fraunces · Hanken Grotesk · IBM Plex Mono</span>
+    <span>the-foundation-stack</span>
+  </div>
+</footer>
+
+</body>
+</html>
