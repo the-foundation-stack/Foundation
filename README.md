@@ -26,6 +26,16 @@ The **Open Charity API Standard**. A vendor-neutral OpenAPI 3.1 specification an
 
 📁 [`./open-charity-api/`](./open-charity-api/) · 🌐 7 translated READMEs · *Status: draft v0.1*
 
+> 💡 Want to see it run? The [OCAS reference server](./ocas-reference-node/) is a working implementation you can start in under a minute.
+
+---
+
+### [ocas-reference-node](./ocas-reference-node/), OCAS reference server
+
+A runnable, in-memory implementation of OCAS in Node.js. Start it with `npm install && npm start` and you have a live charity API answering real requests on `localhost`. It enforces the rules that are easy to get wrong: integer-minor-unit money, Asnaf allocations summing to 100, interest purification never counting as Zakat, and idempotency keys. Ships with a conformance-style test suite. Built for learning and conformance testing, not production.
+
+📁 [`./ocas-reference-node/`](./ocas-reference-node/) · 🟢 `npm start` · ✅ tested · *Implements OCAS draft v0.1*
+
 ---
 
 ## How to get involved
