@@ -38,6 +38,14 @@ A runnable, in-memory implementation of OCAS in Node.js. Start it with `npm inst
 
 ---
 
+### [ocas-reference-python](./ocas-reference-python/), OCAS reference server (Python)
+
+The same reference server, in Python with FastAPI. Identical behaviour and rules to the Node version, so you can see the spec is genuinely portable across stacks. Start it with `uvicorn ocas.server:app --reload` and FastAPI even serves its own interactive docs at `/docs`. Ships with a pytest conformance suite. Built for learning and conformance testing, not production.
+
+📁 [`./ocas-reference-python/`](./ocas-reference-python/) · 🟢 `uvicorn` · ✅ tested · *Implements OCAS draft v0.1*
+
+---
+
 ## How to get involved
 
 - **Adopt a spec.** The fastest way to help is to implement one of our standards in a real product and tell us what broke. Adoption stories beat theoretical critique.

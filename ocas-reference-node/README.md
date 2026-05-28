@@ -98,6 +98,6 @@ It's deliberately small and readable. If you want to build a real OCAS server, t
 
 ## Where this fits
 
-This is one implementation of OCAS. The spec is the source of truth; if this server and the spec ever disagree, the spec wins (and please [open an issue](https://github.com/the-foundation-stack/Foundation/issues)). Implementations in other languages — Python, Go, PHP, Ruby — are very welcome as contributions.
+This is one implementation of OCAS. The spec is the source of truth; if this server and the spec ever disagree, the spec wins (and please [open an issue](https://github.com/the-foundation-stack/Foundation/issues)). There's also a [Python reference server](../ocas-reference-python/) with identical behaviour. Implementations in further languages (Go, PHP, Ruby, Rust) are very welcome as contributions.
 
 Licensed Apache 2.0, same as the rest of The Foundation.
