@@ -34,8 +34,8 @@ jobs:
             --output _site/open-charity-api/index.html \
             --title "OCAS, Open Charity API Standard"
 
-      - name: Copy landing page
-        run: cp docs-site/index.html _site/index.html
+      - name: Copy landing page and static assets
+        run: cp -r docs-site/. _site/
 
       - name: Upload artefact
         uses: actions/upload-pages-artifact@v3
