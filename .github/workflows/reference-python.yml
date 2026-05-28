@@ -1,0 +1,36 @@
+name: Reference server (Python)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ocas-reference-python/**'
+      - '.github/workflows/reference-python.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'ocas-reference-python/**'
+      - '.github/workflows/reference-python.yml'
+
+jobs:
+  test:
+    name: pytest
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ocas-reference-python
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: ocas-reference-python/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -q

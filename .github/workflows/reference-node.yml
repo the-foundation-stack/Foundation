@@ -1,0 +1,36 @@
+name: Reference server (Node)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ocas-reference-node/**'
+      - '.github/workflows/reference-node.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'ocas-reference-node/**'
+      - '.github/workflows/reference-node.yml'
+
+jobs:
+  test:
+    name: npm test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ocas-reference-node
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: ocas-reference-node/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
