@@ -16,10 +16,10 @@ jobs:
     name: Validate OpenAPI spec
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -33,7 +33,7 @@ jobs:
     name: Lint OpenAPI spec (Spectral)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Run Spectral lint
         uses: stoplightio/spectral-action@latest
@@ -47,7 +47,7 @@ jobs:
     name: Validate JSON examples
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Parse every example JSON file
         run: |
@@ -66,7 +66,7 @@ jobs:
     name: Validate Postman collection
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Parse Postman collection
         run: python3 -c "import json; json.load(open('open-charity-api/postman/OCAS.postman_collection.json'))"
