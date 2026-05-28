@@ -1,0 +1,28 @@
+{
+  "name": "ocas-reference-node",
+  "version": "0.1.0",
+  "description": "A barebones reference implementation of the Open Charity API Standard (OCAS), in Node.js + Express. For learning and conformance testing, not production.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "ocas",
+    "openapi",
+    "charity",
+    "donations",
+    "zakat",
+    "reference-implementation"
+  ],
+  "author": "The Foundation",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
