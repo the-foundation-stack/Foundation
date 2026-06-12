@@ -7,7 +7,7 @@
 [![Spec: OpenAPI 3.1](https://img.shields.io/badge/Spec-OpenAPI_3.1-green.svg)](spec/openapi.yaml)
 [![Status: Draft](https://img.shields.io/badge/Status-Draft_v0.1-orange.svg)](#)
 
-**Read this in another language:** [العربية](docs/i18n/README.ar.md) · [اردو](docs/i18n/README.ur.md) · [Français](docs/i18n/README.fr.md) · [Español](docs/i18n/README.es.md) · [Türkçe](docs/i18n/README.tr.md) · [Bahasa Indonesia](docs/i18n/README.id.md) · [Bahasa Melayu](docs/i18n/README.ms.md)
+**Read this in another language:** [العربية](docs/i18n/README.ar.md) · [اردو](docs/i18n/README.ur.md) · [Français](docs/i18n/README.fr.md) · [Español](docs/i18n/README.es.md) · [Türkçe](docs/i18n/README.tr.md) · [Bahasa Indonesia](docs/i18n/README.id.md) · [Bahasa Melayu](docs/i18n/README.ms.md) · [Polski](docs/i18n/README.pl.md)
 
 ---
 
